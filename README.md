@@ -80,13 +80,3 @@ Our web-application will host on Heroku. Express will be used as a web server. D
  
 #### Database
  1. MongoDB <br>
-
-#### Examples of work
-
-![image](https://user-images.githubusercontent.com/56652716/193843798-f6394492-8a75-419b-8226-a15e01e0c0cb.png)
-
-![image](https://user-images.githubusercontent.com/56652716/193843868-4901db2e-83a0-4c0b-8ae2-361192374dfc.png)
-
-![image](https://user-images.githubusercontent.com/56652716/193843921-fb531fb1-9dab-4413-aa35-1d4652eaabc5.png)
-
-![image](https://user-images.githubusercontent.com/56652716/193843975-86327a74-1d5e-4c8f-87fc-b1d69896c848.png)
