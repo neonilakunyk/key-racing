@@ -1,0 +1,15 @@
+ls:
+  .dir: regex:([.a-z]*)([-.][a-z]+)*
+  .scss: regex:([.a-z]*)([-.][a-z]+)*
+  .ts: regex:([.a-z]*)([-.][a-z]+)*
+
+
+ignore:
+    - node_modules
+    - build
+    - frontend/build
+    - frontend/node_modules
+    - backend/build
+    - backend/node_modules
+    - .git
+    - .husky

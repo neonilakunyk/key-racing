@@ -1,0 +1,18 @@
+.timerGroup {
+  display: flex;
+  flex-direction: column;
+
+  .timerContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    @media only screen and (max-width: 570px) {
+      flex-direction: column;
+    }
+
+    .timerField {
+      width: 8rem;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+.columns{
+
+  @media only screen and (max-width: 660px) {
+    column-count: 1 !important;
+    flex-direction: column;
+  }
+
+  
+  .title{
+    width: 90%;
+    font-size: 2.6rem;
+  
+    @media only screen and (max-width: 1200px) {
+      font-size: 2.6rem;
+    }
+    @media only screen and (max-width: 950px) {
+      font-size: 2.5rem;
+    }
+    @media only screen and (max-width: 850px) {
+      font-size: 2.4rem;
+    }
+    @media only screen and (max-width: 660px) {
+     width: 600%;
+    } 
+    @media only screen and (max-width: 435px) {
+      width: 550%;
+    } 
+  }
+  
+  .tip{
+    display: flex;
+    background-color: #8ecea6;
+    padding: 0.5rem;
+    font-size: 1.6rem;
+  
+    @media only screen and (max-width: 660px) {
+      width: 600%;
+    }
+    @media only screen and (max-width: 435px) {
+      width: 550%;
+    } 
+  }
+
+  .text{
+    font-size: 1.6rem ;
+
+    @media only screen and (max-width: 660px) {
+      width: 95% !important;
+    }
+  }
+}

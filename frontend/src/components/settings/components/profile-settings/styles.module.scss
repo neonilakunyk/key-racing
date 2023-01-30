@@ -1,0 +1,30 @@
+.input {
+  height: 4.2rem;
+  font-size: 2rem !important;
+}
+
+.avatarImgContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  border: 1px solid #ced4da;
+  border-radius: 50%;
+  min-height: 12.8rem;
+  min-width: 12.8rem;
+  margin-bottom: 1rem;
+  box-shadow: rgb(0 0 0 / 25%) 0px 0px 15px inset;
+}
+
+.noAvatar {
+  font-size: 3rem;
+  cursor: default;
+}
+
+.cardInput{
+  width: 20rem;
+
+  @media only screen and (max-width: 860px) {
+    width: 100%;
+  }
+}

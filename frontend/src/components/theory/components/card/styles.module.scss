@@ -1,0 +1,47 @@
+div.card {
+  padding: 0.5rem;
+  background-color: #8ecea6;
+
+  @media only screen and (max-width: 750px) {
+    width: 100% ;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.cardImageContainer {
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  
+    img {
+      width: 34rem;
+      height: 17rem;
+
+      @media only screen and (max-width: 1285px) {
+        width: 32rem;
+        height: 16rem;
+      }
+      @media only screen and (max-width: 1225px) {
+        width: 30rem;
+        height: 15rem;
+      }
+      @media only screen and (max-width: 1175px) {
+        width: 28rem;
+        height: 14rem;
+      }
+      @media only screen and (max-width: 1105px) {
+        width: 27rem;
+        height: 13rem;
+      }
+      @media only screen and (max-width: 1055px) {
+        width: 25rem;
+        height: auto;
+      }
+      @media only screen and (max-width: 750px) {
+        width: 100%;
+        height: auto;
+      }
+    }
+  
+}
+

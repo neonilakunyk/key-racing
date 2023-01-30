@@ -1,0 +1,127 @@
+.handTypingGif{
+  display: flex;
+  float: right;
+  margin-right: 0.5rem;
+
+  img{
+    height: 20rem;
+    width: 20rem;
+
+    @media only screen and (max-width: 1200px) {
+      height: 20rem;
+      width: 20rem;
+    }
+    @media only screen and (max-width: 950px) {
+      height: 17rem;
+      width: 17rem;
+    }
+    @media only screen and (max-width: 850px) {
+      height: 14rem;
+     width: 14rem;
+    }
+  }
+  
+}
+
+.reasons{
+  margin-top: 1rem;
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+
+  }
+}
+
+.tenFingerMethod{
+
+  @media only screen and (max-width: 750px) {
+    flex-direction: column;
+    width: 100%;
+  }
+  @media only screen and (max-width: 660px) {
+    width: 100%;
+  }
+
+  .tenFingerText{
+    width: 100%;
+  }
+  
+  .tenFingerPng{
+  
+    display: flex;
+    flex-direction: column;
+    width: 40rem;
+    margin-left: 0.7rem;
+  
+    @media only screen and (max-width: 750px) {
+      width: 100%;
+      height: 100%;
+    }
+    @media only screen and (max-width: 660px) {
+      margin-left: 0rem;
+      width: 100%;
+    }
+    @media only screen and (max-width: 435px) {
+      margin-left: 0rem;
+      width: 90%;
+    }
+
+    .tenFingers{
+      display: flex;
+  
+      img{
+        width: 40rem;
+  
+        @media only screen and (max-width: 1200px) {
+          width: 40rem;
+        }
+        @media only screen and (max-width: 1100px) {
+          width: 37rem;
+        }
+        @media only screen and (max-width: 1000px) {
+         width: 34rem;
+        }
+        @media only screen and (max-width: 950px) {
+          width: 32rem;
+        }
+        @media only screen and (max-width: 900px) {
+          width: 30rem;
+        }
+        @media only screen and (max-width: 750px) {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  
+    .mainKeys{
+      display: flex;
+      margin-top: 1rem;
+      img{
+        width: 40rem;
+  
+        @media only screen and (max-width: 1200px) {
+          width: 40rem;
+        }
+        @media only screen and (max-width: 1100px) {
+          width: 37rem;
+        }
+        @media only screen and (max-width: 1000px) {
+         width: 34rem;
+        }
+        @media only screen and (max-width: 950px) {
+          width: 32rem;
+        }
+        @media only screen and (max-width: 900px) {
+          width: 30rem;
+        }
+        @media only screen and (max-width: 750px) {
+          width: 100%;
+        }
+        
+      }
+    }
+  }
+}
+
+

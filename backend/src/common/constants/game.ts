@@ -1,0 +1,4 @@
+export const DEFAULT_SECONDS_BEFORE_GAME = 10;
+export const DEFAULT_SECONDS_FOR_GAME = 60;
+
+

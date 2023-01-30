@@ -1,0 +1,74 @@
+.header{
+  height: 60px;
+  width: 100%;
+  background-color: #4bba73;
+  font-size: 2rem;
+  justify-content: space-between;
+
+  @media only screen and (max-width: 870px) {
+    font-size: 1.6rem;
+    height: 85.25px;
+    flex-basis: content;
+  }
+  @media only screen and (max-width: 750px) {
+    flex-wrap: wrap;
+  }
+  @media only screen and (max-width: 660px) {
+    height: 60px;
+  }
+  @media only screen and (max-width: 430px) {
+    font-size: 1.2rem;
+    height: 85.25px;
+    flex-basis: content;
+  }
+
+  .actions{
+    width: 50%;
+    @media only screen and (max-width: 1180px) {
+
+      width: 75%;
+    }
+    @media only screen and (max-width: 870px) {
+      font-size: 1.2rem;
+      flex-wrap: wrap;
+      width: 45%;
+    }
+    @media only screen and (max-width: 750px) {
+
+      width: 55%;
+    }
+    @media only screen and (max-width: 660px) {
+      flex-wrap: nowrap;
+      width: 30%;
+    }
+    @media only screen and (max-width: 430px) {
+      font-size: 1.2rem;
+      flex-wrap: wrap;
+      width: 40%;
+    }
+    
+
+  }
+
+  .controls{
+    width: 24%;
+    @media only screen and (max-width: 830px) {
+      font-size: 1.2rem;
+      width: 44%;
+    }
+    @media only screen and (max-width: 430px) {
+      font-size: 1.2rem;
+      flex-wrap: wrap;
+      width: 40%;
+    }
+
+  }
+
+  a {
+    text-decoration: none;
+
+    @media only screen and (max-width: 660px) {
+      text-transform: none;
+    }
+  }
+}

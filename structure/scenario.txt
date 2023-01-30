@@ -1,0 +1,332 @@
+Story 1: Sign up the application
+  As an unregistered user
+  In order to use different functions of the app in the future
+  I want to sign up the application
+---------------------------------------------
+
+Scenario 1: 
+  Given   that I am at the ‘Sign up’ page of the application
+  When  I indicate all necessary personal information (name, email and  password) in a complying with all the requirements
+  And   I click on button ‘Confirm’
+  Then  the system will enter data to DB 
+  And   the system will automatically redirect user to the root page
+
+Scenario 2: 
+  Given   that I am at the ‘Sign up’ page of the application
+  When  I indicate not all necessary personal information 
+  And   I click on button ‘Confirm’
+  Then  the system will display pop up notification about skipped fields
+
+Scenario 3: 
+  Given   that I am at the ‘Sign up’ page of the application
+  When  I indicate all necessary personal information (name, email and password) not meeting all the requirements
+  And   I click on button ‘Confirm’
+  Then  the system will display pop up notification with following message:
+    ●	A valid name contains:
+      ★	only letters
+    ●	A valid email address has four parts:
+      ★	recipient name
+      ★	@ symbol
+      ★	domain name
+      ★	top-level domain
+    ●	A valid password contains:
+      ★	at least one lowercase letter
+      ★	at least one uppercase letter
+      ★	at least one digit
+      ★	at least 8 characters 
+
+Scenario 4: 
+Given   that I am at the ‘Sign up’ page of the application
+When  I click on button ‘Sign in’
+Then  the system will automatically redirect user to the ‘Sign in’ page
+
+_________________________________________________________________________
+
+Story 2: Sign in the application
+As an registered user
+In order to use different functions of the app
+I want to sign in the application
+---------------------------------------------
+
+Scenario 1: 
+Given   that I am at the ‘Sign in’ page of the application 
+When  I indicate correct email and password
+And   I click on button ‘Confirm’
+Then  the system will display root page
+
+Scenario 2: 
+Given   that I am at the ‘Sign in’ page of the application 
+When  I indicate incorrect email or password
+And   I click on button ‘Confirm’
+Then  the system will display pop-up notification about incorrect entered data (not registered email or wrong password)
+
+Scenario 3: 
+Given   that I am at the ‘Sign in’ page of the application
+When  I click on button ‘Sign up’
+Then  the system will automatically redirect user to the ‘Sign up’ page
+
+_________________________________________________________________________
+
+Story 3: Sign out the application
+As an signed in user 
+In order to exit the application
+I want to sign out the application
+---------------------------------------------
+
+Scenario 1: 
+Given   that I am a user at the any page of the application
+When  I click on button ‘Sign out’ in header
+Then  the system will automatically redirect to ‘Sign in’ page
+
+_________________________________________________________________________
+
+Story 4: Read theory
+As an signed in user 
+In order to get the knowledge about the speed typing
+I want to read some theory
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the any page of the application 
+When  I click on button ‘Theory’ in header
+Then  the system will automatically redirect to ‘Theory’ page with all theoretical information
+
+_________________________________________________________________________
+
+Story 5: View rating
+As an signed in user 
+In order to find out my progress
+I want to know what position I am in the ranking 
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the any page of the application 
+When  I click on button ‘Rating’ in header
+Then  the system will automatically redirect to ‘Rating’ page with rating of all users who don't forbid to show them in the global rating
+
+_________________________________________________________________________
+
+Story 5: Change profile name
+As an signed in user 
+In order to update info about me
+I want to change my profile name
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And   I enter in the input my new profile name
+When  I click on the ‘Save changes’ button 
+Then  the system will update data in DB 
+And   the system will automatically show new profile name in the header
+
+_________________________________________________________________________
+
+Story 6: Change profile e-mail
+As an signed in user 
+In order to update info about me
+I want to change my profile e-mail
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And   I enter in the input my new profile e-mail
+When  I click on the ‘Save changes’ button 
+Then  the system will update data in DB 
+And   the system will automatically show new profile e-mail in the header
+
+_________________________________________________________________________
+
+Story 7: Change profile avatar
+As an signed in user 
+In order to update info about me
+I want to change my profile name
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And   I enter in the input my new profile avatar
+When  I click on the ‘Save changes’ button  
+Then  the system will update data in DB 
+And   the system will automatically show new profile avatar in the header
+
+_________________________________________________________________________
+
+Story 8: Change visibility your profile in rating
+As an signed in user 
+In order to improve my security of personal data
+I want to hide my profile from the global rating
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And  I uncheck mark symbol near the label ‘Show me in the global rating’
+When  I click on the ‘Save changes’ button 
+Then  the system will update data in DB 
+And   the system will not show me in the global rating after the page reload
+
+_________________________________________________________________________
+
+Story 9: Change time limit before game in single player mode
+As an signed in user 
+In order to increase/decrease time before game
+I want to change time limit before game
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And   I press on +/- symbol near the input field with time limit before game
+When  I click on the ‘Save changes’ button  
+Then  the system will update data in DB 
+And   the system will count down to the start of the game from a given number
+
+_________________________________________________________________________
+
+Story 10: Change time for game in single player mode
+As an signed in user 
+In order to increase/decrease time for game
+I want to change time for game
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Settings’ page of the application 
+And   I press on +/- symbol near the input field with time for game
+When  I click on the ‘Save changes’ button  
+Then  the system will update data in DB 
+And   the system will count down to the end of the game from a given number
+
+_________________________________________________________________________
+
+Story 11: Choose room
+As an signed in user 
+In order to take part in the multiplayer mode game
+I want to choose a room where i will play
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the ‘Select room’ page of the application 
+When  I click on the rectangle with room name
+Then  the system will automatically redirect me to the game page for this room 
+
+Scenario 2:
+Given   that I am a user at the ‘Select room’ page of the application 
+And   I click on the + symbol 
+And   I enter a name of the new room in the modal window 
+And   I uncheck mark ‘Private room’
+When  I click ‘Create’ button 
+Then  the system will save data in the DB
+And   the system will automatically redirect me to the game page for this room 
+And   the system will automatically add this to the list of available rooms for the gamers
+
+Scenario 3:
+Given   that I am a user at the ‘Select room’ page of the application 
+And   I click on the + symbol 
+And   I enter a name of the new room in the modal window 
+And   I check mark ‘Private room’
+When  I click ‘Create’ button 
+Then  the system will save data in the DB
+And   the system will automatically show modal window where you can send an invitation link to other users
+
+Scenario 4:
+Given   that I am a user at the ‘Select room’ page of the application 
+And   I have a modal window for sending the invitation link open
+And I entered the emails of the people I want to invite to the room in the input field
+When  I click ‘Send’ button 
+Then  the system will automatically send letter with invitation link to the gamers
+
+_________________________________________________________________________
+
+Story 12: Play single mode game
+As an signed in user 
+In order to improve my speed typing skill 
+I want to play a single mode game
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the single mode game page of the application 
+When  I click on the ‘Start game’ button
+Then  the system will automatically start count down to the start of the game from a number set in the settings
+And   and when the countdown time is over, the system will display the text that I will have to type 
+
+Scenario 2:
+Given   that I am a user at the single mode game page of the application
+And   game started
+And   text for typing is displayed
+When  I enter a character that corresponds to a character from the given text, which I must now enter
+Then  the system will color the entered character green 
+And   the system will highlight the next character with an underscore and spaces on the sides
+
+Scenario 3:
+Given   that I am a user at the single mode game page of the application
+And   game started
+And   text for typing is displayed
+When  I enter a character that doesn't correspond to a character from the given text, which I must now enter
+Then  the system will do nothing 
+
+Scenario 4:
+Given   that I am a user at the single mode game page of the application
+When  I type all the characters 
+Then  Game will be over
+And   the system will display the elapsed time, the number of characters typed, the speed and the graph of the number of typed characters in seconds
+
+Scenario 5:
+Given   that I am a user at the single mode game page of the application
+When  the time allotted for the game specified in the settings has expired 
+Then  Game will be over
+And   the system will display the elapsed time, the number of characters typed, the speed and the graph of the number of typed characters in seconds
+
+_________________________________________________________________________
+
+Story 13: Play multiplayer mode game
+As an signed in user 
+In order to compete with the other users in speed typing
+I want to play a multiplayer mode game
+---------------------------------------------
+
+Scenario 1:
+Given   that I am a user at the multiplayer mode game page of the application 
+When  I click on the ‘Ready’ button
+And   all other user click on the ‘Ready’ button too
+Then  the system will automatically start count down to the start of the game 
+And   and when the countdown time before game is over, the system will display the text that I will have to type 
+
+Scenario 2:
+Given   that I am a user at the multiplayer mode game page of the application 
+When  I click on the ‘Ready’ button
+And   not all other user click on the ‘Ready’ button too
+Then  the system will wait a confirmation of readiness from all users in the room 
+
+Scenario 3:
+Given   that I am a user at the multiplayer mode game page of the application
+And   game started
+And   text for typing is displayed
+When  I enter a character that corresponds to a character from the given text, which I must now enter
+Then  the system will color the entered character green 
+And   the system will highlight the next character with an underscore and spaces on the sides
+And   the system will increase value the progress bar near my name in the users list 
+
+Scenario 4:
+Given   that I am a user at the multiplayer mode game page of the application
+And   game started
+And   text for typing is displayed
+When  I enter a character that doesn't correspond to a character from the given text, which I must now enter
+Then  the system will do nothing 
+
+Scenario 5:
+Given   that I am a user at the multiplayer mode game page of the application
+When  I type all the characters 
+Then  Game will be over
+And   the system will display the rating of the players with their recruitment speed
+
+Scenario 6:
+Given   that I am a user at the multiplayer mode game page of the application
+When  any other user type all the characters 
+Then  Game will be over
+And   the system will display the rating of the players with their recruitment speed
+
+Scenario 7:
+Given   that I am a user at the single mode game page of the application
+When  the time allotted for the game has expired 
+Then  Game will be over
+And   the system will display the rating of the players with their recruitment speed
+
+
