@@ -1,41 +1,26 @@
-import mongoose from 'mongoose';
+import { RefreshTokenModel } from 'data/models';
+import { IRefreshTokenRecord } from 'common/interfaces';
+import { RecordWithoutCommonKeys } from 'common/types';
+import { RefreshTokenKey } from 'common/enums';
 
-import { RefreshTokens } from '../models';
-import { IRefreshTokenEntity } from '../entities';
-import { CommonField, RefreshTokenField } from '../fields';
+const create = async (
+  data: RecordWithoutCommonKeys<IRefreshTokenRecord>,
+): Promise<IRefreshTokenRecord> => {
+  return RefreshTokenModel.query().insert(data);
+};
 
-interface IRefreshToken {
-  [CommonField.ID]?: IRefreshTokenEntity[CommonField.ID];
-  [RefreshTokenField.TOKEN]: IRefreshTokenEntity[RefreshTokenField.TOKEN];
-  [RefreshTokenField.USER_ID]: IRefreshTokenEntity[RefreshTokenField.USER_ID];
-}
+const getByToken = async (
+  token: string,
+): Promise<IRefreshTokenRecord | undefined> => {
+  return RefreshTokenModel.query()
+    .where({ [RefreshTokenKey.TOKEN]: token })
+    .first();
+};
 
-class RefreshTokensRepository {
-  async getOne(
-    params: Partial<IRefreshToken>,
-  ): Promise<IRefreshTokenEntity> {
-    return await RefreshTokens.findOne(params);
-  }
+const removeByUserId = async (userId: number): Promise<number> => {
+  return RefreshTokenModel.query()
+    .where({ [RefreshTokenKey.USER_ID]: userId })
+    .delete();
+};
 
-  async create(params: IRefreshToken): Promise<IRefreshTokenEntity> {
-    const id = new mongoose.Types.ObjectId();
-    return await RefreshTokens.create({
-      id,
-      ...params,
-    });
-  }
-
-  async updateOne(
-    params: Partial<IRefreshToken>,
-    newInfo: Partial<IRefreshToken>,
-  ): Promise<void> {
-    await RefreshTokens.updateOne(params, newInfo);
-  }
-
-  async removeOne(params: Partial<IRefreshToken>): Promise<void> {
-    await RefreshTokens.deleteOne(params);
-  }
-
-}
-
-export const refreshTokensRepository = new RefreshTokensRepository();
+export { create, getByToken, removeByUserId };

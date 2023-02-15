@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { HttpError } from 'exceptions/exceptions';
-import { IRoomCreation } from '../../common/interfaces/interfaces';
+import { HttpError } from 'common/exceptions';
+import { IRoomCreation } from 'common/interfaces';
+import { roomApi } from 'services';
 import { actions } from './slice';
 import { ActionType } from './common';
-import { roomApi } from '../../services/services';
 
 const loadRooms = createAsyncThunk(
   ActionType.SET_ROOMS,
@@ -36,9 +36,9 @@ const createRoom = createAsyncThunk(
 
 const loadRoom = createAsyncThunk(
   ActionType.SET_CURRENT_ROOM,
-  async (id: string, { dispatch }) => {
+  async (roomId: number, { dispatch }) => {
     try {
-      const room = await roomApi.getRoom(id);
+      const room = await roomApi.getRoom(roomId);
       dispatch(actions.setCurrentRoom(room));
     } catch (err) {
       const httpError = err as HttpError;

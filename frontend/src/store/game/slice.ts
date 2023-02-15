@@ -1,12 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IParticipant } from '../../common/interfaces/interfaces';
-import { ReducerName } from '../../common/enums/enums';
+import { IParticipant } from 'common/interfaces';
+import { ReducerName } from 'common/enums';
 import {
+  DEFAULT_PARTICIPANT,
   DEFAULT_SECONDS_BEFORE_GAME,
   DEFAULT_SECONDS_FOR_GAME,
-} from '../../common/constants/constants';
+} from 'common/constants';
 import { ActionType } from './common';
-import { userToParticipant } from 'helpers/helpers';
 
 type State = {
   text: string;
@@ -72,12 +72,12 @@ const { reducer, actions } = createSlice({
     ) => {
       state.participants = [...state.participants, action.payload];
     },
-    [ActionType.REMOVE_PARTICIPANT]: (state, action: PayloadAction<string>) => {
+    [ActionType.REMOVE_PARTICIPANT]: (state, action: PayloadAction<number>) => {
       state.participants = state.participants.filter(
         (participant) => participant.id !== action.payload,
       );
     },
-    [ActionType.TOGGLE_IS_READY]: (state, action: PayloadAction<string>) => {
+    [ActionType.TOGGLE_IS_READY]: (state, action: PayloadAction<number>) => {
       state.participants = state.participants.map((participant) =>
         participant.id === action.payload
           ? { ...participant, isReady: !participant.isReady }
@@ -94,7 +94,7 @@ const { reducer, actions } = createSlice({
           : participant,
       );
     },
-    [ActionType.INCREASE_POSITION]: (state, action: PayloadAction<string>) => {
+    [ActionType.INCREASE_POSITION]: (state, action: PayloadAction<number>) => {
       state.participants = state.participants.map((participant) =>
         participant.id === action.payload
           ? { ...participant, position: ++participant.position }
@@ -106,8 +106,12 @@ const { reducer, actions } = createSlice({
     },
     [ActionType.PARTIAL_RESET]: (state) => {
       const newParticipants = state.participants.map(
-        ({ id, fullName, avatar }) =>
-          userToParticipant({ id, fullName, avatar }),
+        ({ id, fullName, photoUrl }) => ({
+          id,
+          fullName,
+          photoUrl,
+          ...DEFAULT_PARTICIPANT,
+        }),
       );
       const newState = { ...initialState, participants: newParticipants };
       Object.assign(state, newState);

@@ -2,8 +2,8 @@ import {
   IGameSettings,
   ISecuritySettings,
   ISettings,
-} from '../common/interfaces/interfaces';
-import { ContentType, HttpMethod } from '../common/enums/enums';
+} from '../common/interfaces';
+import { ContentType, HttpMethod } from '../common/enums';
 import { http } from './http.service';
 
 class SettingsApi {
@@ -17,14 +17,11 @@ class SettingsApi {
   public async setGameSettings(
     updatePayload: IGameSettings,
   ): Promise<IGameSettings> {
-    const gameSettings: ISettings = await this.http.load(
-      `${this.BASE}/game`,
-      {
-        method: HttpMethod.PUT,
-        payload: JSON.stringify(updatePayload),
-        contentType: ContentType.JSON,
-      },
-    );
+    const gameSettings: ISettings = await this.http.load(`${this.BASE}/game`, {
+      method: HttpMethod.PUT,
+      payload: JSON.stringify(updatePayload),
+      contentType: ContentType.JSON,
+    });
 
     return gameSettings;
   }

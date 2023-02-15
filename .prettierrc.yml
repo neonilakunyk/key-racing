@@ -1,9 +1,9 @@
-printWidth: 80
+printWidth: 80 # It is not the hard upper allowed line length limit. It is how long you’d like lines to be.
 tabWidth: 2
 useTabs: false
 semi: true
 singleQuote: true
-quoteProps: preserve
+quoteProps: as-needed # Only add quotes around object properties where required.
 trailingComma: all
 bracketSpacing: true
-arrowParens: always
+arrowParens: always # (x) => x; if chosen "avoid" than x => x

@@ -1,4 +1,4 @@
-export * from './user-auth.interface';
-export * from './user.interface';
-export * from './user-with-record.interface';
+export type { IUser, IUserWithTokens } from 'key-racing-shared/interfaces';
 export * from './user-creation.interface';
+export * from './user-id.interface';
+export * from './google-user.interface';

@@ -1,0 +1,11 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["src"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": "src", // For short access ('common..' and not '../../common..')
+    "outDir": "build",
+    "module": "CommonJS", // Defines import type in result file
+    "declaration": true // In addition to JavaScript files, typings files (d.ts) will be generated for them. Typing makes it possible to define types for already compiled js files: code in js, ​types in d.ts
+  }
+}

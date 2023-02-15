@@ -1,6 +1,5 @@
-import { IRoomAction } from './room-action.interface';
-import { IUserAction } from './user-action.interface';
+import { IRoomAction, IUserAction } from 'key-racing-shared/interfaces';
 
 interface IUserRoomAction extends IRoomAction, IUserAction {}
 
-export { IUserRoomAction };
+export type { IUserRoomAction };

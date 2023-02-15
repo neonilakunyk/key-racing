@@ -1,6 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IGameSettings, ISecuritySettings, ISettings } from '../../common/interfaces/interfaces';
-import { ReducerName } from '../../common/enums/enums';
+import {
+  IGameSettings,
+  ISecuritySettings,
+  ISettings,
+} from '../../common/interfaces';
+import { ReducerName } from '../../common/enums';
 import { ActionType } from './common';
 
 type State = {
@@ -28,12 +32,18 @@ const { reducer, actions } = createSlice({
       state.secondsForGame = secondsForGame;
       state.secondsBeforeGame = secondsBeforeGame;
     },
-    [ActionType.UPDATE_GAME_SETTINGS]: (state, action: PayloadAction<IGameSettings>) => {
+    [ActionType.UPDATE_GAME_SETTINGS]: (
+      state,
+      action: PayloadAction<IGameSettings>,
+    ) => {
       const { secondsForGame, secondsBeforeGame } = action.payload;
       state.secondsForGame = secondsForGame;
       state.secondsBeforeGame = secondsBeforeGame;
     },
-    [ActionType.UPDATE_SECURITY_SETTINGS]: (state, action: PayloadAction<ISecuritySettings>) => {
+    [ActionType.UPDATE_SECURITY_SETTINGS]: (
+      state,
+      action: PayloadAction<ISecuritySettings>,
+    ) => {
       const { isUserVisibleInRating } = action.payload;
       state.isUserVisibleInRating = isUserVisibleInRating;
     },

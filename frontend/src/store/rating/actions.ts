@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { HttpError } from 'exceptions/exceptions';
+import { HttpError } from 'common/exceptions';
+import { userApi } from 'services';
 import { actions } from './slice';
 import { ActionType } from './common';
-import { userApi } from '../../services/services';
 
 const loadUsers = createAsyncThunk(
   ActionType.SET_USERS,

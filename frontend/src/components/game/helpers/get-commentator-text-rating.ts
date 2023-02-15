@@ -1,5 +1,5 @@
-import { CommentatorEvent } from '../../../common/enums/enums';
-import { IParticipant } from '../../../common/interfaces/interfaces';
+import { CommentatorEvent } from 'common/enums';
+import { IParticipant } from 'common/interfaces';
 
 const getCommentatorText = (
   commentatorEvent: CommentatorEvent,
@@ -7,6 +7,7 @@ const getCommentatorText = (
 ): string => {
   switch (commentatorEvent) {
     case CommentatorEvent.GREETING: {
+      // eslint-disable-next-line max-len
       return 'Good day, dear racing fans! Your attention is invited to an incredible arrival. The motors growl, the participants are determined only to win. An exciting spectacle awaits us, I will comment on it - Escape Enter.';
     }
     case CommentatorEvent.GAME_START: {
@@ -27,7 +28,7 @@ const getCommentatorText = (
       }
       const participantsRating = [...participants].sort(
         (firstParticipant, secondParticipant) => {
-          return  secondParticipant.position - firstParticipant.position;
+          return secondParticipant.position - firstParticipant.position;
         },
       );
       let commentatorText = 'Now the situation is like this:\n';

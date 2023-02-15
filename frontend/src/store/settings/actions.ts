@@ -1,14 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { HttpError } from 'exceptions/exceptions';
-import { ToastMessage } from 'common/enums/enums';
-import {
-  IGameSettings,
-  ISecuritySettings,
-} from '../../common/interfaces/interfaces';
+import { HttpError } from 'common/exceptions';
+import { ToastMessage } from 'common/enums';
+import { IGameSettings, ISecuritySettings } from 'common/interfaces';
+import { settingsApi } from 'services';
 import { actions } from './slice';
 import { ActionType } from './common';
-import { settingsApi } from '../../services/services';
 
 const loadSettings = createAsyncThunk(
   ActionType.SET_SETTINGS,

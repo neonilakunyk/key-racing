@@ -1,72 +1,53 @@
-/* eslint-disable no-console */
-import mongoose from 'mongoose';
+import { SettingsKey, UserKey, UserRelationMappings } from 'common/enums';
+import { IUser, IUserRecord } from 'common/interfaces';
+import { RecordWithoutCommonKeys, UserRatingInfo } from 'common/types';
+import { UserModel } from 'data/models';
 
-import { Users } from '../models';
-import { IUserEntity } from '../entities';
-import { CommonField, SettingField, UserField } from '../fields';
-import { ISecuritySettings } from '../../common/interfaces';
+const create = async (
+  data: Omit<
+    RecordWithoutCommonKeys<IUserRecord>,
+    UserKey.RECORD | UserKey.CURRENT_ROOM_ID
+  >,
+): Promise<IUser> => {
+  return (await UserModel.query().insert({
+    ...data,
+    [UserKey.EMAIL]: data.email.toLowerCase(),
+  })) as IUser;
+};
 
-type UserWithSecuritySettings = IUser & { settings: ISecuritySettings };
+const getByEmail = async (email: string): Promise<IUser | undefined> => {
+  return UserModel.query()
+    .where({ [UserKey.EMAIL]: email.toLowerCase() })
+    .first();
+};
 
-interface IUser {
-  [CommonField.ID]?: IUserEntity[CommonField.ID];
-  [UserField.EMAIL]: IUserEntity[UserField.EMAIL];
-  [UserField.FULL_NAME]: IUserEntity[UserField.FULL_NAME];
-  [UserField.PASSWORD]?: IUserEntity[UserField.PASSWORD];
-  [UserField.AVATAR]?: IUserEntity[UserField.AVATAR];
-  [UserField.RECORD]?: IUserEntity[UserField.RECORD];
-}
+const getById = async (userId: number): Promise<IUser | undefined> => {
+  return UserModel.query().findById(userId);
+};
 
-class UsersRepository {
-  async getOne(params: Partial<IUser>): Promise<IUserEntity> {
-    return await Users.findOne(params);
-  }
+const getAllWithPublicRecords = async (): Promise<UserRatingInfo[]> => {
+  return UserModel.query()
+    .withGraphFetched(UserRelationMappings.SETTINGS)
+    .where({ [SettingsKey.IS_USER_VISIBLE_IN_RATING]: true })
+    .returning([UserKey.FULL_NAME, UserKey.PHOTO_URL, UserKey.RECORD]);
+};
 
-  async getAllWithSettings(): Promise<UserWithSecuritySettings[]> {
-    return await Users.aggregate([
-      {
-        $lookup: {
-          from: 'settings',
-          as: 'settings',
-          localField: CommonField.ID,
-          foreignField: SettingField.USER_ID,
-        },
-      },
-      {
-        $project: {
-          email: 1,
-          fullName: 1,
-          avatar: 1,
-          record: 1,
-          settings: {
-            isUserVisibleInRating: 1,
-          },
-        },
-      },
-      {
-        $match: {
-          settings: {
-            isUserVisibleInRating: true,
-          },
-        },
-      },
-    ]).sort({ record: 'desc' });
-  }
+const getUsersByRoomId = async (roomId: number): Promise<IUser[]> => {
+  return UserModel.query().where({ [UserKey.CURRENT_ROOM_ID]: roomId });
+};
 
-  async create(params: IUser): Promise<IUserEntity> {
-    const id = new mongoose.Types.ObjectId();
-    return await Users.create({
-      _id: id,
-      ...params,
-    });
-  }
+const patchById = async (
+  userId: number,
+  data: Partial<IUserRecord>,
+): Promise<IUser> => {
+  return UserModel.query().patchAndFetchById(userId, data);
+};
 
-  async updateOne(
-    params: Partial<IUser>,
-    newInfo: Partial<IUser>,
-  ): Promise<void> {
-    await Users.updateOne(params, newInfo);
-  }
-}
-
-export const usersRepository = new UsersRepository();
+export {
+  create,
+  getByEmail,
+  getById,
+  getAllWithPublicRecords,
+  getUsersByRoomId,
+  patchById,
+};

@@ -7,7 +7,6 @@
 Key-racing is a simple and easy-to-use keyboard trainer that help you master ten-finger typing skills, improve your typing speed and reduce the number of typos. Do you want to think about the algorithm, and not where is this button? Tired of running your eyes from keyboard to monitor and back? Then go here!
 There are other learning platforms for speed typing, but only here you can arrange a competition that motivates the student.
 
-
 ### Units 🎫
 
 ▶ Theory <br>
@@ -32,7 +31,7 @@ After entering the site, the user is registered using a username, email, passwor
 
 Each user can choose their own avatar, it will be saved in AWS S3 using Multer. If no avatar is selected, initials will be displayed instead. The password will be hashed using Cryptr.
 
- After registering or logging into an account, the user gains access to the game. He can train both independently and compete with other players.
+After registering or logging into an account, the user gains access to the game. He can train both independently and compete with other players.
 
 The process of the game. The player is shown a text on the screen and he enters it from the keyboard. The system checks the correspondence of characters with the text and those entered by the user. The next character cannot be printed if the previous one has not been typed. For incorrectly typed characters, the user does not incur any losses, except for time.
 
@@ -53,30 +52,32 @@ Our web-application will host on Heroku. Express will be used as a web server. D
 1. React <br>
 2. Redux Toolkit <br>
 3. React-Bootstrap <br>
-4. SCSS <br> 
-5. Joke API <br> 
-6. Dayjs <br> 
+4. SCSS <br>
 7. Chart JS <br>
-8. Validator.js <br>
 
 #### Backend
 
- 1. Express <br>
- 2. TypeScript <br>
- 3. AWS S3, Multer <br>
- 4. Cryptr <br> 
- 5. Googleapis <br> 
- 6. Nodemailer <br> 
+1.  Express <br>
+2.  TypeScript <br>
+3.  AWS S3, Multer <br>
+4.  Bcrypt <br>
+5.  Googleapis <br>
+6.  Nodemailer <br>
+7. Joke API <br>
+8. Google Books API <br>
 
 #### Common
 
- 1. ES2020 <br>
- 2. Git <br>
- 3. REST API <br>
- 4. JWT <br>
- 5. Socket.IO <br> 
- 6. npm <br> 
- 7. ESLint <br> 
- 
+1.  ES2020 <br>
+2.  Git <br>
+3.  REST API <br>
+4.  JWT <br>
+5.  Socket.IO <br>
+6.  ESLint <br>
+7.  Yup <br>
+
 #### Database
- 1. MongoDB <br>
+
+1.  PostgreSQL <br>
+1.  Objection <br>
+1.  Knex <br>

@@ -1,7 +1,7 @@
 import { IParticipant } from './participant.interface';
 
 interface IParticipantsResult
-  extends Pick<IParticipant, 'fullName' | 'avatar' | 'id'> {
+  extends Pick<IParticipant, 'fullName' | 'photoUrl' | 'id'> {
   speed: number;
 }
 

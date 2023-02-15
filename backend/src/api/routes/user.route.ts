@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { IRequestWithUser } from '../../common/interfaces';
-import { run, upload } from '../../common/helpers';
+import { IRequestWithUser } from 'common/interfaces';
+import { run, uploadLocally } from 'common/helpers';
 import {
   getUserById,
   updateUserInfo,
@@ -8,15 +8,32 @@ import {
   deleteAvatar,
   getUsersRating,
   updateRecord,
-} from '../../services';
-import { validationMiddleware } from '../middlewares';
-import { profileInfoSchema } from '../../common/validations';
+} from 'services';
+import { validationMiddleware } from 'api/middlewares';
+import { profileInfoSchema, userRecordSchema } from 'common/validations';
 
 const router: Router = Router();
 
 router.get(
   '/me/profile',
   run((req: IRequestWithUser) => getUserById(req.userId)),
+);
+
+router.put(
+  '/me/profile',
+  validationMiddleware(profileInfoSchema, { notRequired: true }),
+  run((req) => updateUserInfo(Number(req.params.userId), req.body)),
+);
+
+router.put(
+  '/me/avatar',
+  uploadLocally().single('image'),
+  run((req) => updateAvatar(Number(req.params.userId), req.file)),
+);
+
+router.delete(
+  '/me/avatar',
+  run((req: IRequestWithUser) => deleteAvatar(req.userId)),
 );
 
 router.get(
@@ -26,24 +43,8 @@ router.get(
 
 router.put(
   '/rating',
-  run((req: IRequestWithUser) => updateRecord(req.body.record, req.userId)),
-);
-
-router.put(
-  '/:id/profile',
-  validationMiddleware(profileInfoSchema),
-  run((req) => updateUserInfo(req.params.id, req.body)),
-);
-
-router.put(
-  '/:id/avatar',
-  upload().single('image'),
-  run((req) => updateAvatar(req.params.id, req.file)),
-);
-
-router.delete(
-  '/:id/avatar',
-  run((req: IRequestWithUser) => deleteAvatar(req.userId)),
+  validationMiddleware(userRecordSchema),
+  run((req: IRequestWithUser) => updateRecord(req.body, req.userId)),
 );
 
 export default router;

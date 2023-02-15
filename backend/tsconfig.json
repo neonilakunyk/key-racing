@@ -1,36 +1,12 @@
 {
+  "extends": "../tsconfig.json",
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [
-        "./src/*"
-      ]
-    },
-    "declaration": true,
-    "target": "es6",
-    "module": "commonjs",
-    "pretty": true,
-    "sourceMap": true,
+    "baseUrl": "src", // For short access ('common..' and not '../../common..')
     "outDir": "build",
-    "preserveSymlinks": true,
-    "importHelpers": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": false,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "lib": ["es2020"],
-    "typeRoots": ["src/common/typings", "node_modules/@types"]
-  },
-  "include": ["./src/**/*"]
+    "module": "CommonJS", // Defines import type in result file
+    "moduleResolution": "node", // Defines way of searching modules in folders
+    "pretty": true // Pretty logs
+  }
 }

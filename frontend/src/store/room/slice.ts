@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IRoom } from '../../common/interfaces/interfaces';
-import { ReducerName } from '../../common/enums/enums';
+import { IRoom } from '../../common/interfaces';
+import { ReducerName } from '../../common/enums';
 import { ActionType } from './common';
 
 type State = {
@@ -8,7 +8,7 @@ type State = {
   currentRoom: IRoom | null;
   isUpdatingCurrentRoom: boolean;
   isDeletingCurrentRoomLogo: boolean;
-  shareRoomId: string;
+  shareRoomId: number | null;
   isLoading: boolean;
 };
 
@@ -17,7 +17,7 @@ const initialState: State = {
   currentRoom: null,
   isUpdatingCurrentRoom: false,
   isDeletingCurrentRoomLogo: false,
-  shareRoomId: '',
+  shareRoomId: null,
   isLoading: false,
 };
 
@@ -31,13 +31,13 @@ const { reducer, actions } = createSlice({
     [ActionType.ADD_ROOM]: (state, action: PayloadAction<IRoom>) => {
       state.rooms = [...state.rooms, action.payload];
     },
-    [ActionType.SET_SHARE_ROOM_ID]: (state, action: PayloadAction<string>) => {
+    [ActionType.SET_SHARE_ROOM_ID]: (state, action: PayloadAction<number | null>) => {
       state.shareRoomId = action.payload;
     },
     [ActionType.TOGGLE_IS_LOADING]: (state) => {
       state.isLoading = !state.isLoading;
     },
-    [ActionType.REMOVE_ROOM]: (state, action: PayloadAction<string>) => {
+    [ActionType.REMOVE_ROOM]: (state, action: PayloadAction<number>) => {
       state.rooms = state.rooms?.filter((room) => room.id !== action.payload);
     },
     [ActionType.SET_CURRENT_ROOM]: (state, action: PayloadAction<IRoom>) => {

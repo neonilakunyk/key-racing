@@ -1,0 +1,3 @@
+const MAX_SECONDS_BEFORE_GAME = 30;
+
+export { MAX_SECONDS_BEFORE_GAME };

@@ -1,0 +1,3 @@
+const IS_USER_VISIBLE_IN_RATING = true;
+
+export { IS_USER_VISIBLE_IN_RATING };

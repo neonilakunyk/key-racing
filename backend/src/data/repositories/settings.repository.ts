@@ -1,36 +1,26 @@
-import mongoose from 'mongoose';
+import { SettingsModel } from 'data/models';
+import { ISettings, ISettingsRecord } from 'common/interfaces';
+import { SettingsKey } from 'common/enums';
 
-import { Settings } from '../models';
-import { ISettingEntity } from '../entities';
-import { CommonField, SettingField } from '../fields';
+const createEmptyUserRecord = async (
+  userId: number,
+): Promise<ISettingsRecord> => {
+  return await SettingsModel.query().insert({ [SettingsKey.USER_ID]: userId });
+};
 
-interface ISettings {
-  [CommonField.ID]?: ISettingEntity[CommonField.ID];
-  [SettingField.USER_ID]: ISettingEntity[SettingField.USER_ID];
-  [SettingField.IS_USER_VISIBLE_IN_RATING]?: ISettingEntity[SettingField.IS_USER_VISIBLE_IN_RATING];
-  [SettingField.SECONDS_BEFORE_GAME]?: ISettingEntity[SettingField.SECONDS_BEFORE_GAME];
-  [SettingField.SECONDS_FOR_GAME]?: ISettingEntity[SettingField.SECONDS_FOR_GAME];
-}
+const getByUserId = async (userId: number): Promise<ISettings | undefined> => {
+  return SettingsModel.query()
+    .where({ [SettingsKey.USER_ID]: userId })
+    .first();
+};
 
-class SettingsRepository {
-  async getOne(params: Partial<ISettings>): Promise<ISettings> {
-    return await Settings.findOne(params);
-  }
+const patchByUserId = async (
+  userId: number,
+  data: Partial<ISettings>,
+): Promise<ISettings | undefined> => {
+  return SettingsModel.query()
+    .where({ [SettingsKey.USER_ID]: userId })
+    .patchAndFetch(data);
+};
 
-  async create(params: ISettings): Promise<ISettings> {
-    const id = new mongoose.Types.ObjectId();
-    return await Settings.create({
-      _id: id,
-      ...params,
-    });
-  }
-
-  async updateOne(
-    params: Partial<ISettings>,
-    newInfo: Partial<ISettings>,
-  ): Promise<void> {
-    await Settings.updateOne(params, newInfo);
-  }
-}
-
-export const settingsRepository = new SettingsRepository();
+export { createEmptyUserRecord, getByUserId, patchByUserId };

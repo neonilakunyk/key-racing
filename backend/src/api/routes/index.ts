@@ -1,16 +1,16 @@
-import { Express } from 'express';
+import {  Router } from 'express';
 import authRoute from './auth.route';
 import userRoute from './user.route';
 import roomRoute from './room.route';
 import settingsRoute from './settings.route';
 import gameRoute from './game.route';
 
-const routes = (app: Express): void => {
-  app.use('/api/auth', authRoute);
-  app.use('/api/user', userRoute);
-  app.use('/api/room', roomRoute);
-  app.use('/api/settings', settingsRoute);
-  app.use('/api/game', gameRoute);
-};
+const router: Router = Router();
 
-export default routes;
+router.use('/auth', authRoute);
+router.use('/user', userRoute);
+router.use('/room', roomRoute);
+router.use('/settings', settingsRoute);
+router.use('/game', gameRoute);
+
+export default router;

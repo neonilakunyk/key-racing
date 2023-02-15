@@ -1,106 +1,71 @@
-import mongoose, { Types } from 'mongoose';
+import { RoomModel } from 'data/models';
+import { IRoom, IRoomRecord, IRoomWithUsers } from 'common/interfaces';
+import {
+  UserKey,
+  RoomRelationMappings,
+  RoomKey,
+  CommonKey,
+} from 'common/enums';
+import { RecordWithoutCommonKeys } from 'common/types';
+import { MAX_USERS_IN_ROOM } from 'common/constants';
 
-import { RoomType } from '../../common/enums';
-import { MAX_USERS_IN_ROOM } from '../../common/constants';
-import { Rooms } from '../models';
-import { IRoomEntity, IUserEntity } from '../entities';
-import { CommonField, RoomField, UserField } from '../fields';
-
-interface IRoom {
-  [CommonField.ID]?: IRoomEntity[CommonField.ID];
-  [RoomField.NAME]: IRoomEntity[RoomField.NAME];
-  [RoomField.TYPE]: IRoomEntity[RoomField.TYPE];
-  [RoomField.TEXT_ID]?: IRoomEntity[RoomField.TEXT_ID];
-  [RoomField.USERS]?: IRoomEntity[RoomField.USERS];
-}
-
-interface IUser {
-  [CommonField.ID]?: IUserEntity[CommonField.ID];
-  [UserField.FULL_NAME]: IUserEntity[UserField.FULL_NAME];
-  [UserField.AVATAR]: IUserEntity[UserField.AVATAR];
-}
-
-type RoomWithUsers = IRoom & {
-  usersInfo: IUser[];
+const create = async (
+  data: Omit<RecordWithoutCommonKeys<IRoomRecord>, RoomKey.TEXT>,
+): Promise<IRoom> => {
+  return (await RoomModel.query().insert(data)) as IRoom;
 };
 
-class RoomsRepository {
-  async getOne(params: Partial<IRoom>): Promise<IRoomEntity> {
-    return await Rooms.findOne(params);
-  }
+const getById = async (roomId: number): Promise<IRoom | undefined> => {
+  return RoomModel.query().findById(roomId).castTo<IRoom>();
+};
 
-  async create(params: IRoom, id?: string): Promise<IRoomEntity> {
-    const roomId = id ?? new mongoose.Types.ObjectId();
-    return await Rooms.create({
-      _id: roomId,
-      ...params,
-    });
-  }
+const getByName = async (name: string): Promise<IRoom | undefined> => {
+  return RoomModel.query()
+    .where({ [RoomKey.NAME]: name })
+    .castTo<IRoom>();
+};
 
-  async updateOne(
-    params: Partial<IRoom>,
-    newInfo: Partial<IRoom>,
-  ): Promise<void> {
-    await Rooms.updateOne(params, newInfo);
-  }
+const getWithUsersById = async (roomId: number): Promise<IRoomWithUsers> => {
+  return RoomModel.query()
+    .findById(roomId)
+    .withGraphFetched([RoomRelationMappings.USERS])
+    .castTo<IRoomWithUsers>();
+};
 
-  async removeOne(params: Partial<IRoom>): Promise<void> {
-    await Rooms.deleteOne(params);
-  }
+const getAvailable = async (): Promise<IRoom[]> => {
+  return RoomModel.query()
+    .select([
+      RoomKey.NAME,
+      RoomKey.TEXT,
+      RoomKey.TYPE,
+      RoomModel.relatedQuery(RoomRelationMappings.USERS)
+        .count()
+        .where({
+          [UserKey.CURRENT_ROOM_ID]: CommonKey.ID,
+        })
+        .as(RoomRelationMappings.USERS),
+    ])
+    .where(RoomRelationMappings.USERS, '<', MAX_USERS_IN_ROOM)
+    .castTo<IRoom[]>();
+};
 
-  async getOneWithUsers(id: Types.ObjectId): Promise<RoomWithUsers> {
-    const [room] = await Rooms.aggregate([
-      {
-        $lookup: {
-          from: 'users',
-          as: 'usersInfo',
-          localField: RoomField.USERS,
-          foreignField: CommonField.ID,
-        },
-      },
-      {
-        $project: {
-          usersInfo: {
-            fullName: 1,
-            avatar: 1,
-            _id: 1,
-          },
-          _id: 1,
-        },
-      },
-      {
-        $match: {
-          _id: id,
-        },
-      },
-    ]);
-    return room;
-  }
+const patchById = async (
+  userId: number,
+  data: Partial<IRoomRecord>,
+): Promise<IRoom> => {
+  return RoomModel.query().patchAndFetchById(userId, data).castTo<IRoom>();
+};
 
-  async getAvailable(): Promise<IRoomEntity[]> {
-    return await Rooms.aggregate([
-      {
-        $project: {
-          _id: 1,
-          name: 1,
-          type: 1,
-          numberOfUsers: {
-            $cond: {
-              if: { $isArray: '$users' },
-              then: { $size: '$users' },
-              else: 'NA',
-            },
-          },
-        },
-      },
-      {
-        $match: {
-          numberOfUsers: { $lt: MAX_USERS_IN_ROOM },
-          type: RoomType.PUBLIC,
-        },
-      },
-    ]);
-  }
-}
+const removeById = async (roomId: number): Promise<number> => {
+  return RoomModel.query().findById(roomId).delete();
+};
 
-export const roomsRepository = new RoomsRepository();
+export {
+  create,
+  getById,
+  getByName,
+  getWithUsersById,
+  getAvailable,
+  patchById,
+  removeById,
+};

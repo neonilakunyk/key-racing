@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import { run } from '../../common/helpers';
+import { run } from 'common/helpers';
 import {
   signUpSchema,
   loginSchema,
   resetPasswordSchema,
   setPasswordSchema,
-} from '../../common/validations';
+  refreshTokenSchema,
+  loginGoogleSchema,
+} from 'common/validations';
 import {
   login,
   register,
@@ -15,8 +17,9 @@ import {
   logout,
   loginGoogle,
   getLoginGoogleUrl,
-} from '../../services';
-import { validationMiddleware } from '../middlewares';
+} from 'services';
+import { validationMiddleware } from 'api/middlewares';
+
 const router: Router = Router();
 
 router.post(
@@ -45,17 +48,20 @@ router.post(
 
 router.post(
   '/refresh',
+  validationMiddleware(refreshTokenSchema),
   run((req) => refreshTokens(req.body)),
 );
 
 router.post(
   '/logout',
+  validationMiddleware(refreshTokenSchema),
   run((req) => logout(req.body)),
 );
 
 router.post(
   '/login/google',
-  run((req) => loginGoogle(req.body.code)),
+  validationMiddleware(loginGoogleSchema),
+  run((req) => loginGoogle(req.body)),
 );
 
 router.get(

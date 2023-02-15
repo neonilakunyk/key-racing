@@ -1,5 +1,5 @@
-export * from './refresh-tokens';
-export * from './rooms';
-export * from './settings';
-export * from './texts';
-export * from './users';
+
+export * from './refresh-token.model';
+export * from './room.model';
+export * from './settings.model';
+export * from './user.model';

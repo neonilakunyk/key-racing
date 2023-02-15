@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { IUserWithRecord } from '../../common/interfaces/interfaces';
-import { ReducerName } from '../../common/enums/enums';
+import { ReducerName } from 'common/enums';
+import { UserRatingInfo } from 'common/types';
 import { ActionType } from './common';
 
 type State = {
-  users: IUserWithRecord[];
+  users: UserRatingInfo[];
 };
 
 const initialState: State = {
@@ -15,7 +15,10 @@ const { reducer, actions } = createSlice({
   name: ReducerName.ROOM,
   initialState,
   reducers: {
-    [ActionType.SET_USERS]: (state, action: PayloadAction<IUserWithRecord[]>) => {
+    [ActionType.SET_USERS]: (
+      state,
+      action: PayloadAction<UserRatingInfo[]>,
+    ) => {
       state.users = action.payload;
     },
   },

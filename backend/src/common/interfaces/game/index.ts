@@ -1,2 +1,1 @@
-export * from './text.interface';
-export * from './link.interface';
+export type { IGameLink, IGameText, IJoke } from 'key-racing-shared/interfaces';

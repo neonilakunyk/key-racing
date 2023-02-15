@@ -1,13 +1,15 @@
 env:
-  node: true
+  node: true # Adds all Node.js global variables and Node.js scope.
 
 extends:
   - ../.eslintrc.yml
 
+parserOptions:
+  project: ./tsconfig.json
+
 overrides:
   - files:
-    - config/**/*
-    - src/data/migrations/**/*
+      - knexfile.ts
     rules:
-      '@typescript-eslint/no-var-requires':
+      'import/no-default-export':
         - off

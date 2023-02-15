@@ -1,120 +1,107 @@
-import { usersRepository } from '../data/repositories';
-import {
-  deleteFile,
-  isFileExists,
-  uploadFile,
-  unlinkFile,
-} from '../common/helpers';
-import { IUser, IUserWithRecord } from '../common/interfaces';
+import { basename } from 'path';
+import { usersRepository } from 'data/repositories';
+import { deleteLocally } from 'common/helpers';
+import { IUser } from 'common/interfaces';
+import { HttpError } from 'common/exceptions';
+import { HttpCode, HttpErrorMessage } from 'common/enums';
+import { deleteInS3, isFileExistsInS3, uploadToS3 } from 'common/utils';
+import { UserRatingInfo } from 'common/types';
 
-export const getUserById = async (id: string): Promise<IUser> => {
-  const { fullName, email, avatar } = await usersRepository.getOne({
-    _id: id,
-  });
-
-  return {
-    id,
-    fullName,
-    email,
-    avatar,
-  };
+export const getUserById = async (userId: number): Promise<IUser> => {
+  const user = await usersRepository.getById(userId);
+  if (!user) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
+  }
+  return user;
 };
 
 export const updateUserInfo = async (
-  id: string,
+  userId: number,
   body: Partial<IUser>,
 ): Promise<IUser> => {
-  if (body.fullName) {
-    await usersRepository.updateOne(
-      {
-        _id: id,
-      },
-      { fullName: body.fullName },
-    );
+  const user = await usersRepository.patchById(userId, body);
+  if (!user) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
   }
-
-  const { fullName, email, avatar } = await usersRepository.getOne({
-    _id: id,
-  });
-
-  return {
-    id,
-    fullName,
-    email,
-    avatar,
-  };
+  return user;
 };
 
 export const updateAvatar = async (
-  id: string,
-  file: Express.Multer.File,
+  id: number,
+  file?: Express.Multer.File,
 ): Promise<IUser> => {
-  const userToUpdate = await usersRepository.getOne({
-    _id: id,
-  });
-
-  if (userToUpdate.avatar) {
-    const fileName = userToUpdate.avatar.split('/').pop();
-    const isExistsAvatar = await isFileExists(fileName);
+  if (!file) {
+    throw new HttpError({
+      status: HttpCode.UNPROCESSABLE_ENTITY,
+      message: HttpErrorMessage.NO_FILE,
+    });
+  }
+  const userToUpdate = await usersRepository.getById(id);
+  if (!userToUpdate) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
+  }
+  const { photoUrl } = userToUpdate;
+  if (photoUrl) {
+    const fileName = basename(photoUrl);
+    const isExistsAvatar = await isFileExistsInS3(fileName);
     if (isExistsAvatar) {
-      await deleteFile(userToUpdate.avatar);
+      await deleteInS3(photoUrl);
     }
   }
 
-  const uploadedFile = await uploadFile(file);
-  unlinkFile(file.path);
+  const uploadedFile = await uploadToS3(file);
+  deleteLocally(file.path);
   const { Location } = uploadedFile;
 
-  await usersRepository.updateOne(
-    {
-      _id: id,
-    },
-    { avatar: Location || userToUpdate.avatar },
-  );
-
-  const { fullName, email, avatar } = await usersRepository.getOne({
-    _id: id,
+  return usersRepository.patchById(id, {
+    photoUrl: Location ?? userToUpdate.photoUrl,
   });
-
-  return {
-    id,
-    fullName,
-    email,
-    avatar,
-  };
 };
 
-export const deleteAvatar = async (id: string): Promise<void> => {
-  const userToUpdate = await usersRepository.getOne({
-    _id: id,
-  });
-  if (userToUpdate?.avatar) {
-    await usersRepository.updateOne(
-      {
-        _id: id,
-      },
-      { avatar: '' },
-    );
+export const deleteAvatar = async (id: number): Promise<void> => {
+  const userToUpdate = await usersRepository.getById(id);
+  if (!userToUpdate) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
+  }
+  const { photoUrl } = userToUpdate;
+  if (photoUrl) {
+    const fileName = basename(photoUrl);
+    const isExistsAvatar = await isFileExistsInS3(fileName);
+    if (isExistsAvatar) {
+      await deleteInS3(photoUrl);
+    }
+    await usersRepository.patchById(id, { photoUrl: null });
   }
 };
 
-export const getUsersRating = async (): Promise<IUserWithRecord[]> => {
-  const usersWithSettings = await usersRepository.getAllWithSettings();
-  return usersWithSettings.map(({ _id, fullName, avatar, record }) => ({
-    fullName,
-    avatar,
-    record,
-    id: _id,
-  }));
+export const getUsersRating = async (): Promise<UserRatingInfo[]> => {
+  return usersRepository.getAllWithPublicRecords();
 };
 
 export const updateRecord = async (
-  record: number,
-  userId: string,
+  { record }: Pick<IUser, 'record'>,
+  userId: number,
 ): Promise<void> => {
-  const user = await usersRepository.getOne({ _id: userId });
-  await usersRepository.updateOne(
-    { _id: userId },
-    { record: Math.max(user.record, record) },
-  );
+  const user = await usersRepository.getById(userId);
+  if (!user) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
+  }
+  if (user.record < record) {
+    await usersRepository.patchById(userId, { record });
+  }
 };

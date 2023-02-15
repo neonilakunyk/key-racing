@@ -1,4 +1,4 @@
-import { HttpMethod, ContentType } from 'common/enums/enums';
+import { HttpMethod, ContentType } from 'common/enums';
 import {
   IResetPassword,
   ISetPassword,
@@ -6,7 +6,8 @@ import {
   ILogin,
   IRegister,
   IUserWithTokens,
-} from 'common/interfaces/interfaces';
+  IGoogleLoginUrl,
+} from 'common/interfaces';
 import { http } from './http.service';
 
 class AuthApi {
@@ -65,11 +66,8 @@ class AuthApi {
     });
   }
 
-  public async getLoginGoogleUrl(
-  ): Promise<{ url: string }> {
-    return this.http.load(
-      `${this.BASE}/login/google`,
-    );
+  public async getLoginGoogleUrl(): Promise<IGoogleLoginUrl> {
+    return this.http.load(`${this.BASE}/login/google`);
   }
 
   public async loginGoogle(code: string): Promise<IUserWithTokens> {
@@ -79,7 +77,6 @@ class AuthApi {
       contentType: ContentType.JSON,
     });
   }
-
 }
 
 export const authApi = new AuthApi();

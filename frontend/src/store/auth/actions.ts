@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
-import { authApi, userApi } from 'services/services';
-import { ILogin, IRegister } from 'common/interfaces/interfaces';
-import { LocalStorageVariable } from 'common/enums/enums';
-import { HttpError } from 'exceptions/exceptions';
+import { authApi, userApi } from 'services';
+import { ILogin, IRegister } from 'common/interfaces';
+import { LocalStorageVariable } from 'common/enums';
+import { HttpError } from 'common/exceptions';
 import {
   deleteTokensLocalStorage,
   setTokensLocalStorage,
-} from 'helpers/helpers';
+} from 'common/helpers';
 import { actions } from './slice';
 import { ActionType } from './common';
 

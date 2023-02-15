@@ -1,5 +1,4 @@
-export * from './refresh-tokens.repository';
-export * from './users.repository';
-export * from './rooms.repository';
-export * from './settings.repository';
-export * from './texts.repository';
+export * as refreshTokensRepository from './refresh-tokens.repository';
+export * as usersRepository from './users.repository';
+export * as roomsRepository from './rooms.repository';
+export * as settingsRepository from './settings.repository';

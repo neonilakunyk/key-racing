@@ -1,37 +1,31 @@
 import { Server } from 'socket.io';
-import { RoomType, SocketEvents } from '../common/enums';
-import { IRoom, IRoomCreation, IRoomShare } from '../common/interfaces';
-import { roomsRepository, usersRepository } from '../data/repositories';
-import { HttpErrorMessage, HttpCode } from '../common/enums';
-import { HttpError } from '../exceptions';
-import { sendMail } from '../common/utils';
+import { RoomType, SocketEvents } from 'common/enums';
+import { IRoom, IRoomCreation, IRoomShare, IUser } from 'common/interfaces';
+import { roomsRepository, usersRepository } from 'data/repositories';
+import { HttpErrorMessage, HttpCode } from 'common/enums';
+import { HttpError } from 'common/exceptions';
+import { sendMail } from 'common/utils';
 
-export const getRoom = async (roomId: string): Promise<IRoom> => {
-  const room = await roomsRepository.getOne({ _id: roomId });
+export const getRooms = async (): Promise<IRoom[]> => {
+  return roomsRepository.getAvailable();
+};
+
+export const getRoom = async (roomId: number): Promise<IRoom> => {
+  const room = await roomsRepository.getById(roomId);
   if (!room) {
     throw new HttpError({
       status: HttpCode.NOT_FOUND,
       message: HttpErrorMessage.NO_ROOM_WITH_SUCH_ID,
     });
   }
-  const { name, type, _id } = room;
-  return { name, type: type as RoomType, id: _id };
-};
-
-export const getRooms = async (): Promise<IRoom[]> => {
-  const rooms = await roomsRepository.getAvailable();
-  return rooms.map(({ name, type, _id }) => ({
-    name,
-    type: type as RoomType,
-    id: _id,
-  }));
+  return room;
 };
 
 export const create = async (
   data: IRoomCreation,
   io: Server,
 ): Promise<IRoom> => {
-  const isNameUsed = await roomsRepository.getOne({ name: data.name });
+  const isNameUsed = await roomsRepository.getByName(data.name);
   if (isNameUsed) {
     throw new HttpError({
       status: HttpCode.CONFLICT,
@@ -44,23 +38,32 @@ export const create = async (
     type: data.type,
   });
 
-  const { name, type, _id } = room;
-
-  if (type === RoomType.PUBLIC) {
-    io.emit(SocketEvents.CREATE_ROOM, { name, id: _id });
+  if (room.type === RoomType.PUBLIC) {
+    io.emit(SocketEvents.CREATE_ROOM, room);
   }
 
-  return { name, id: _id };
+  return room;
 };
 
 export const shareLinkByEmails = async (
   body: IRoomShare,
-  userId: string,
+  userId: number,
 ): Promise<void> => {
-  const user = await usersRepository.getOne({ _id: userId });
+  const user = await usersRepository.getById(userId);
+  if (!user) {
+    throw new HttpError({
+      status: HttpCode.NOT_FOUND,
+      message: HttpErrorMessage.NO_USER_WITH_SUCH_ID,
+    });
+  }
+  const { emails, link } = body;
   await sendMail({
-    to: body.emails,
+    to: emails,
     subject: `${user.fullName} shared an Key Racing room with you`,
-    text: body.link,
+    text: link,
   });
+};
+
+export const getRoomUsers = async (roomId: number): Promise<IUser[]> => {
+  return usersRepository.getUsersByRoomId(roomId);
 };

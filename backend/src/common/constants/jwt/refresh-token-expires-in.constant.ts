@@ -1,0 +1,3 @@
+const REFRESH_TOKEN_EXPIRES_IN = '7d';
+
+export { REFRESH_TOKEN_EXPIRES_IN };

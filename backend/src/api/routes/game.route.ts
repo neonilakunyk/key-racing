@@ -1,45 +1,49 @@
 import { Router } from 'express';
-import { IRequestWithSocket } from '../../common/interfaces';
-import { run } from '../../common/helpers/route.helper';
+import { IRequestWithSocket } from 'common/interfaces';
+import { run } from 'common/helpers';
 import {
   addUser,
   deleteUser,
-  getRoomUsers,
   getText,
   deleteText,
   getShareLink,
-} from '../../services';
+  getJoke,
+} from 'services';
+import { validationMiddleware } from 'api/middlewares';
+import { roomUserSchema } from 'common/validations';
 
 const router: Router = Router();
 
 router.get(
   '/:roomId/text',
-  run((req) => getText(req.params.roomId)),
+  run((req) => getText(Number(req.params.roomId))),
 );
 
 router.get(
   '/:roomId/link',
-  run((req) => getShareLink(req.params.roomId)),
+  run((req) => getShareLink(Number(req.params.roomId))),
 );
 
 router.put(
   '/delete-text',
-  run((req) => deleteText(req.body.roomId)),
-);
-
-router.get(
-  '/:roomId/users',
-  run((req) => getRoomUsers(req.params.roomId)),
+  run((req) => deleteText(Number(req.body.roomId))),
 );
 
 router.put(
   '/add-user',
+  validationMiddleware(roomUserSchema),
   run((req: IRequestWithSocket) => addUser(req.body, req.io)),
 );
 
 router.put(
   '/delete-user',
+  validationMiddleware(roomUserSchema),
   run((req: IRequestWithSocket) => deleteUser(req.body, req.io)),
+);
+
+router.get(
+  '/joke',
+  run(() => getJoke()),
 );
 
 export default router;

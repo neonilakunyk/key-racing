@@ -1,0 +1,3 @@
+const BOOKS_API_MIN_START_INDEX = 0;
+
+export { BOOKS_API_MIN_START_INDEX };

@@ -1,0 +1,22 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "description": "shared",
+  "engines": {
+    "node": ">=14 <15",
+    "npm": ">=6 <7"
+  },
+  "scripts": {
+    "lint:ts": "npx eslint \"src/**/*.ts\" --fix",
+    "lint": "npm run lint:ts",
+    "build:ts": "tsc && tsc-alias -p tsconfig.json",
+    "build": "npm run build:ts && cp -r node_modules build && cp package.json build"
+  },
+  "devDependencies": {
+    "tsc-alias": "1.6.6",
+    "typescript": "4.6.3"
+  },
+  "dependencies": {
+    "yup": "0.32.11"
+  }
+}

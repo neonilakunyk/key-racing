@@ -1,0 +1,3 @@
+const MAX_SECONDS_FOR_GAME = 150;
+
+export { MAX_SECONDS_FOR_GAME };

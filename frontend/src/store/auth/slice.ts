@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { ReducerName } from 'common/enums/app/reducer-name.enum';
-import { IUser } from 'common/interfaces/interfaces';
+import { IUser } from 'common/interfaces';
 import { ActionType } from './common';
 
 type State = {
@@ -26,7 +26,7 @@ const { reducer, actions } = createSlice({
       state,
       action: PayloadAction<Partial<IUser>>,
     ) => {
-      Object.assign(state.user, action.payload);
+      Object.assign(state.user ?? {}, action.payload);
     },
     [ActionType.REMOVE_USER]: (state) => {
       state.user = null;

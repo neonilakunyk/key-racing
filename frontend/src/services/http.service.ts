@@ -1,5 +1,5 @@
 import EventEmitter from 'events';
-import { HttpError } from 'exceptions/exceptions';
+import { HttpError } from 'common/exceptions';
 import {
   ContentType,
   HttpHeader,
@@ -7,12 +7,12 @@ import {
   LocalStorageVariable,
   HttpCode,
   EmitterEvent,
-} from 'common/enums/enums';
-import { HttpOptions } from 'common/types/types';
+} from 'common/enums';
+import { HttpOptions } from 'common/types';
 import {
   deleteTokensLocalStorage,
   setTokensLocalStorage,
-} from 'helpers/helpers';
+} from 'common/helpers';
 
 class Http {
   private areTokensRefreshing;

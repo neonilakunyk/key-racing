@@ -1,9 +1,6 @@
-import {
-  IUser,
-  IUserWithTokens,
-  IUserWithRecord,
-} from '../common/interfaces/interfaces';
-import { HttpMethod, ContentType } from '../common/enums/enums';
+import { IUser, IUserWithTokens } from 'common/interfaces';
+import { HttpMethod, ContentType } from 'common/enums';
+import { UserRatingInfo } from 'common/types';
 import { http } from './http.service';
 
 class UserApi {
@@ -14,12 +11,9 @@ class UserApi {
     return await this.http.load(`${this.BASE}/me/profile`);
   }
 
-  public async update(
-    id: string,
-    updatePayload: Partial<IUser>,
-  ): Promise<IUser> {
+  public async update(updatePayload: Partial<IUser>): Promise<IUser> {
     const updateResponse: IUser = await this.http.load(
-      `${this.BASE}/${id}/profile`,
+      `${this.BASE}/me/profile`,
       {
         method: HttpMethod.PUT,
         payload: JSON.stringify(updatePayload),
@@ -30,16 +24,12 @@ class UserApi {
     return updateResponse;
   }
 
-  public async uploadAvatar(
-    id: string,
-    file: File,
-    fileName: string,
-  ): Promise<IUser> {
+  public async uploadAvatar(file: File, fileName: string): Promise<IUser> {
     const fd = new FormData();
     fd.append('image', file, fileName);
 
     const uploadResponse: IUser = await this.http.load(
-      `${this.BASE}/${id}/avatar`,
+      `${this.BASE}/me/avatar`,
       {
         method: HttpMethod.PUT,
         payload: fd,
@@ -49,13 +39,13 @@ class UserApi {
     return uploadResponse;
   }
 
-  public async deleteAvatar(id: string): Promise<void> {
-    return this.http.load(`${this.BASE}/${id}/avatar`, {
+  public async deleteAvatar(): Promise<void> {
+    return this.http.load(`${this.BASE}/me/avatar`, {
       method: HttpMethod.DELETE,
     });
   }
 
-  public async getUsersRating(): Promise<IUserWithRecord[]> {
+  public async getUsersRating(): Promise<UserRatingInfo[]> {
     return await this.http.load(`${this.BASE}/rating`);
   }
 

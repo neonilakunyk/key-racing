@@ -1,9 +1,5 @@
-import {
-  IRoom,
-  IRoomCreation,
-  IRoomShare,
-} from '../common/interfaces/interfaces';
-import { ContentType, HttpMethod } from '../common/enums/enums';
+import { IRoom, IRoomCreation, IRoomShare } from '../common/interfaces';
+import { ContentType, HttpMethod } from '../common/enums';
 import { http } from './http.service';
 
 class RoomApi {
@@ -22,8 +18,8 @@ class RoomApi {
     return this.http.load(this.BASE);
   }
 
-  public async getRoom(id: string): Promise<IRoom> {
-    return this.http.load(`${this.BASE}/${id}`);
+  public async getRoom(roomId: number): Promise<IRoom> {
+    return this.http.load(`${this.BASE}/${roomId}`);
   }
 
   public async sendLinkByEmails(payload: IRoomShare): Promise<void> {

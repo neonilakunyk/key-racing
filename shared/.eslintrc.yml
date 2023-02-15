@@ -1,0 +1,8 @@
+env:
+  node: true # Adds all Node.js global variables and Node.js scope.
+
+extends:
+  - ../.eslintrc.yml
+
+parserOptions:
+  project: ./tsconfig.json

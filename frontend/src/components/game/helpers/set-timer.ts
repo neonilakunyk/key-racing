@@ -1,9 +1,6 @@
-import { SECOND_IN_MILLISECONDS } from '../../../common/constants/constants';
+import { MILLISECONDS_IN_SECOND } from 'common/constants';
 
-const setTimer = (
-  startValue: number,
-  action: () => void,
-): void => {
+const setTimer = (startValue: number, action: () => void): void => {
   let limit = startValue;
   const timerIncreaser = (): void => {
     action();
@@ -12,7 +9,7 @@ const setTimer = (
       clearInterval(timer);
     }
   };
-  const timer = setInterval(timerIncreaser, SECOND_IN_MILLISECONDS);
+  const timer = setInterval(timerIncreaser, MILLISECONDS_IN_SECOND);
 };
 
 export { setTimer };

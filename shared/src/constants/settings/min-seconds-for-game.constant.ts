@@ -1,0 +1,3 @@
+const MIN_SECONDS_FOR_GAME = 0;
+
+export { MIN_SECONDS_FOR_GAME };

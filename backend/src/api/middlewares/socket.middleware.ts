@@ -1,10 +1,10 @@
-import { NextFunction, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { Server } from 'socket.io';
-import { IRequestWithSocket } from '../../common/interfaces/socket';
+import { IRequestWithSocket } from 'common/interfaces';
 
-export const socket =
-  (io: Server) =>
-    (req: IRequestWithSocket, _: Response, next: NextFunction): void => {
-      req.io = io;
-      next();
-    };
+export const socket = (io: Server) => {
+  return (req: Request, _res: Response, next: NextFunction): void => {
+    req = { ...req, io } as IRequestWithSocket;
+    next();
+  };
+};

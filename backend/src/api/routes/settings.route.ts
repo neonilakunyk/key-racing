@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { IRequestWithUser } from '../../common/interfaces';
-import { run } from '../../common/helpers';
+import { IRequestWithUser } from 'common/interfaces';
+import { run } from 'common/helpers';
 import {
   getSettings,
   setGameSettings,
   setSecuritySettings,
-} from '../../services';
-import { validationMiddleware } from '../middlewares';
-import { gameSettingsSchema } from '../../common/validations';
+} from 'services';
+import { validationMiddleware } from 'api/middlewares';
+import { gameSettingsSchema, securitySettingsSchema } from 'common/validations';
 
 const router: Router = Router();
 
@@ -24,6 +24,7 @@ router.put(
 
 router.put(
   '/security',
+  validationMiddleware(securitySettingsSchema),
   run((req: IRequestWithUser) => setSecuritySettings(req.userId, req.body)),
 );
 

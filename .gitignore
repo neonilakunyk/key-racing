@@ -1,14 +1,12 @@
-# dependencies
+# IDE settings
+.vscode/
+.idea/
+
+# Dependencies
 node_modules
-.pnp
-.pnp.js
 
-# production
-build
-
-# misc
+# Misc
 .env
 
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+#Production
+build
