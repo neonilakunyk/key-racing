@@ -28,16 +28,16 @@ class Http {
     options: Partial<HttpOptions> = {},
   ): Promise<T> {
     try {
-      return await this.sendRequest(url, options);
+      return this.sendRequest(url, options);
     } catch (err) {
       const httpErr = err as HttpError;
       if (httpErr.status === HttpCode.UNAUTHORIZED) {
         if (this.areTokensRefreshing) {
-          return await this.sendRequestAfterGetToken(url, options);
+          return this.sendRequestAfterGetToken(url, options);
         } else {
           this.areTokensRefreshing = true;
           const accessToken = await this.refreshTokens(httpErr);
-          return await this.sendRequest(url, options, accessToken);
+          return this.sendRequest(url, options, accessToken);
         }
       } else {
         this.throwError(httpErr);

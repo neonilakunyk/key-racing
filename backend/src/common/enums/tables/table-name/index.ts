@@ -1,1 +1,1 @@
-export * from './table-name.enum'
+export * from './table-name.enum';

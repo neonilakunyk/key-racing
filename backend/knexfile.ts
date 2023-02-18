@@ -20,4 +20,4 @@ const DEFAULT_ENV_CONFIG: Knex.Config<ConfigPropType> = {
   ...knexSnakeCaseMappers(),
 };
 
-export default DEFAULT_ENV_CONFIG;
+export { DEFAULT_ENV_CONFIG as knexConfig };

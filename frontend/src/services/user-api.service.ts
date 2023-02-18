@@ -8,7 +8,7 @@ class UserApi {
   private BASE = '/api/user';
 
   public async getCurrentUserInfo(): Promise<IUserWithTokens> {
-    return await this.http.load(`${this.BASE}/me/profile`);
+    return this.http.load(`${this.BASE}/me/profile`);
   }
 
   public async update(updatePayload: Partial<IUser>): Promise<IUser> {
@@ -46,11 +46,11 @@ class UserApi {
   }
 
   public async getUsersRating(): Promise<UserRatingInfo[]> {
-    return await this.http.load(`${this.BASE}/rating`);
+    return this.http.load(`${this.BASE}/rating`);
   }
 
   public async updateRecord(record: number): Promise<void> {
-    return await this.http.load(`${this.BASE}/rating`, {
+    return this.http.load(`${this.BASE}/rating`, {
       method: HttpMethod.PUT,
       payload: JSON.stringify({ record }),
       contentType: ContentType.JSON,

@@ -69,4 +69,4 @@ router.get(
   run(() => getLoginGoogleUrl()),
 );
 
-export default router;
+export { router as authRoute };

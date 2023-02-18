@@ -92,7 +92,7 @@ export const register = async (
   const hashedPassword = await hash(userInfo.password);
   const email = userInfo.email;
 
-  return await createUser({ ...userInfo, email, password: hashedPassword });
+  return createUser({ ...userInfo, email, password: hashedPassword });
 };
 
 export const login = async (body: ILogin): Promise<IUserWithTokens> => {
@@ -199,5 +199,5 @@ export const loginGoogle = async ({
   if (user) {
     return getUserWithTokens(user);
   }
-  return await createUser({ fullName: name, email, photoUrl: picture });
+  return createUser({ fullName: name, email, photoUrl: picture });
 };

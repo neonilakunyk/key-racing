@@ -5,7 +5,7 @@ import { SettingsKey } from 'common/enums';
 const createEmptyUserRecord = async (
   userId: number,
 ): Promise<ISettingsRecord> => {
-  return await SettingsModel.query().insert({ [SettingsKey.USER_ID]: userId });
+  return SettingsModel.query().insert({ [SettingsKey.USER_ID]: userId });
 };
 
 const getByUserId = async (userId: number): Promise<ISettings | undefined> => {

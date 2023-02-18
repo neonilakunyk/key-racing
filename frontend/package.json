@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint:ts": "npx eslint src --ext ts,tsx",
-    "lint:css": "npx stylelint \"src/**/*.scss\" --syntax scss",
+    "lint:css": "npx stylelint \"src/**/*.scss\"",
     "lint": "npm run lint:css && npm run lint:ts --fix",
     "start": "react-scripts start",
     "build": "react-scripts build"
@@ -45,8 +45,8 @@
     "@types/react-router-dom": "5.1.8",
     "eslint-plugin-react": "7.24.0",
     "sass": "1.35.2",
-    "stylelint-config-recommended-scss": "4.3.0",
-    "stylelint-scss": "3.19.0"
+    "stylelint-config-recommended-scss": "9.0.1",
+    "stylelint-scss": "4.4.0"
   },
   "proxy": "http://localhost:3001/",
   "browserslist": {

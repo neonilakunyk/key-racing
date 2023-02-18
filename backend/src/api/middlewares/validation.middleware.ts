@@ -25,7 +25,5 @@ export const validationMiddleware = <T extends AnySchema>(
         });
       }
     }
-
-    return next();
   };
 };

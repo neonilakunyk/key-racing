@@ -46,4 +46,4 @@ router.get(
   run(() => getJoke()),
 );
 
-export default router;
+export { router as gameRoute };

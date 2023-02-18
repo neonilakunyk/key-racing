@@ -40,4 +40,4 @@ router.post(
   run((req: IRequestWithUser) => shareLinkByEmails(req.body, req.userId)),
 );
 
-export default router;
+export { router as roomRoute };

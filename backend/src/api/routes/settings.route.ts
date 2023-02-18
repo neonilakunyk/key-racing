@@ -1,11 +1,7 @@
 import { Router } from 'express';
 import { IRequestWithUser } from 'common/interfaces';
 import { run } from 'common/helpers';
-import {
-  getSettings,
-  setGameSettings,
-  setSecuritySettings,
-} from 'services';
+import { getSettings, setGameSettings, setSecuritySettings } from 'services';
 import { validationMiddleware } from 'api/middlewares';
 import { gameSettingsSchema, securitySettingsSchema } from 'common/validations';
 
@@ -28,4 +24,4 @@ router.put(
   run((req: IRequestWithUser) => setSecuritySettings(req.userId, req.body)),
 );
 
-export default router;
+export { router as settingsRoute };

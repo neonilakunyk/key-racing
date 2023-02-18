@@ -25,11 +25,11 @@
     "build": "npm run build:frontend && npm run build:backend",
     "start:frontend": "cd frontend && npm run start",
     "start:backend": "cd backend && npm run start:dev",
-    "start:dev": "concurrently --kill-others --prefix \"{name}\" -names \"FRONTEND,BACKEND\" --prefix-colors \"green,blue\" \"npm:start:frontend\" \"npm:start:backend\"",
+    "start:dev": "concurrently --kill-others --prefix \"{name}\" --names \"FRONTEND,BACKEND\" --prefix-colors \"green,blue\" \"npm:start:frontend\" \"npm:start:backend\"",
     "start": "cd build && npm run start",
     "heroku-prebuild": "npm run install:all",
     "heroku-postbuild": "npm run build && npm run move:deploy",
-    "move:deploy": "mv backend/build . && mv backend/node_modules build && mv frontend/build/* build/public"
+    "move:deploy": "mv backend/build . && mv backend/node_modules build && cd build && mkdir public && cd .. && mv frontend/build/* build/public"
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "1.9.2",
@@ -41,11 +41,12 @@
     "lint-staged": "11.1.0",
     "prettier": "2.8.3",
     "simple-git-hooks": "2.8.1",
-    "stylelint": "13.13.1",
-    "stylelint-config-recommended": "5.0.0",
+    "stylelint": "15.1.0",
+    "stylelint-config-recommended": "10.0.1",
     "typescript": "4.3.5"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
-  }
+  },
+  "dependencies": {}
 }

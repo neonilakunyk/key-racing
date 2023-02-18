@@ -1,7 +1,7 @@
 enum RoomKey {
   NAME = 'name',
   TYPE = 'type',
-  TEXT = 'text'
+  TEXT = 'text',
 }
 
 export { RoomKey };

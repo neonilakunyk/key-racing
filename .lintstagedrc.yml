@@ -1,6 +1,6 @@
 '*': npm run lint:editorconfig && npm run lint:fs
 '*.{ts,tsx,scss}': prettier --write
-shared/src/**/*.ts: npm run lint:shared:ts
-backend/**/*.ts: npm run lint:backend:ts
+shared/src/**/*.ts: npm run lint:shared
+backend/**/*.ts: npm run lint:backend
 frontend/src/**/*.{ts,tsx}: npm run lint:frontend:ts
 frontend/src/**/*.scss: npm run lint:frontend:css

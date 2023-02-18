@@ -47,4 +47,4 @@ router.put(
   run((req: IRequestWithUser) => updateRecord(req.body, req.userId)),
 );
 
-export default router;
+export { router as userRoute };

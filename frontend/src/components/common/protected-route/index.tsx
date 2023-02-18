@@ -11,7 +11,6 @@ const ProtectedRoute = ({ ...rest }: RouteProps): JSX.Element => {
   const { isRefreshTokenExpired } = useAppSelector((state) => state.auth);
   const history = useHistory();
   const location = useLocation();
-  console.log(isRefreshTokenExpired, token, isAuth);
   useEffect(() => {
     if (token && isAuth) {
       history.push(AppRoute.ROOT);

@@ -17,7 +17,6 @@ import styles from './styles.module.scss';
 import commonStyles from '../styles.module.scss';
 
 const Login: React.FC = () => {
-  console.log(loginSchema);
   const dispatch = useAppDispatch();
   const { push } = useHistory();
   const { generalError, user } = useAppSelector((state) => state.auth);

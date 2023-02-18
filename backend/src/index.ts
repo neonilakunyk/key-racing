@@ -6,8 +6,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { Model } from 'objection';
 
-import knexConfig from '../knexfile';
-import routes from 'api/routes';
+import { knexConfig } from '../knexfile';
+import { routes } from 'api/routes';
 import { env } from 'env';
 import { getSocketHandlers } from 'socket/handlers';
 import { logger } from 'common/utils';
@@ -47,13 +47,14 @@ app.use(express.json());
  - a string or array (when extended is false)
  - any type (when extended is true)*/
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/api', authorizationMiddleware, socketMiddleware(io), routes);
 
 app.use(errorHandlerMiddleware);
 
-app.use('*', (_req, res) => {
-  console.log('yes');
-  res.sendFile(path.join(__dirname, '/public/index.html'));
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/*', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 httpServer.listen(port, async () => {
