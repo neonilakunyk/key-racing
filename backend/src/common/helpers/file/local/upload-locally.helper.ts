@@ -2,6 +2,7 @@ import multer, { FileFilterCallback, Multer } from 'multer';
 import { Request } from 'express';
 import path from 'path';
 import fs from 'fs';
+import { IRequestWithUser } from 'common/interfaces';
 
 const fileFilter = (
   _req: Request,
@@ -26,9 +27,9 @@ const uploadLocally = (): Multer => {
 
       cb(null, dirPath);
     },
-    filename: function (req, file, cb) {
+    filename: function (req: IRequestWithUser, file, cb) {
       const fileName =
-        req.params.userId + '.' + Date.now() + path.extname(file.originalname);
+        req.userId + '.' + Date.now() + path.extname(file.originalname);
       cb(null, fileName);
     },
   });

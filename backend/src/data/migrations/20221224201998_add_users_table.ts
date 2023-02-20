@@ -7,9 +7,13 @@ async function up(knex: Knex): Promise<void> {
     table.string('email').unique().notNullable();
     table.string('password');
     table.string('photo_url');
-    table.integer('record').notNullable().defaultTo(0);
+    table.float('record').notNullable().defaultTo(0);
     table.integer('current_room_id').references('id').inTable('rooms');
-    table.integer('personal_room_id').references('id').inTable('rooms').notNullable();
+    table
+      .integer('personal_room_id')
+      .references('id')
+      .inTable('rooms')
+      .notNullable();
     table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
     table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
   });

@@ -46,6 +46,7 @@ const Rooms: React.FC = () => {
 
   const handleShareCancel = (): void => {
     setIsShareModalVisible(false);
+    dispatch(roomActions.setShareRoomId(null));
   };
 
   const handleCreationConfirm = (data: IRoomCreation): void => {

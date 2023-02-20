@@ -8,6 +8,7 @@ import styles from './styles.module.scss';
 
 const Rating: React.FC = () => {
   const { users } = useAppSelector((state) => state.rating);
+  const { user: currentUser } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -21,12 +22,17 @@ const Rating: React.FC = () => {
       >
         <div className={styles.ratingListItems}>
           {users.map((user, i) => (
-            <RatingItem
-              key={`${i}:${user.fullName}-${user.record}`}
-              user={user}
-              number={i}
-            />
+            <RatingItem key={user.id} user={user} number={i} />
           ))}
+          {users.length &&
+            currentUser &&
+            !users.find((user) => user.id === currentUser.id) && (
+              <RatingItem
+                key={currentUser.id}
+                user={currentUser}
+                number={users.length}
+              />
+            )}
         </div>
       </div>
     </Page>

@@ -1,6 +1,6 @@
 import { Server } from 'socket.io';
 import { RoomType, SocketEvents } from 'common/enums';
-import { IRoom, IRoomCreation, IRoomShare, IUser } from 'common/interfaces';
+import { IRoom, IRoomCreation, IRoomShare } from 'common/interfaces';
 import { roomsRepository, usersRepository } from 'data/repositories';
 import { HttpErrorMessage, HttpCode } from 'common/enums';
 import { HttpError } from 'common/exceptions';
@@ -62,8 +62,4 @@ export const shareLinkByEmails = async (
     subject: `${user.fullName} shared an Key Racing room with you`,
     text: link,
   });
-};
-
-export const getRoomUsers = async (roomId: number): Promise<IUser[]> => {
-  return usersRepository.getUsersByRoomId(roomId);
 };

@@ -1,9 +1,10 @@
+interface IDescription {
+  volumeInfo?: { description?: string };
+  description?: string;
+}
+
 interface BooksApiResponse {
-  items: [
-    {
-      description?: string;
-    },
-  ];
+  items: IDescription[];
 }
 
 export type { BooksApiResponse };

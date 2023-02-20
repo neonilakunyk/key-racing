@@ -6,10 +6,10 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import { Model } from 'objection';
 
-import { knexConfig } from '../knexfile';
+import knexConfig from '../knexfile';
 import { routes } from 'api/routes';
 import { env } from 'env';
-import { getSocketHandlers } from 'socket/handlers';
+import { getSocketHandlers } from 'socket';
 import { logger } from 'common/utils';
 import {
   errorHandlerMiddleware,

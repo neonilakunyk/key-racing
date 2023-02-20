@@ -5,7 +5,7 @@ async function up(knex: Knex): Promise<void> {
     table.increments('id').primary();
     table.string('name').notNullable();
     table.string('type').notNullable();
-    table.string('text');
+    table.text('text');
     table.dateTime('created_at').notNullable().defaultTo(knex.fn.now());
     table.dateTime('updated_at').notNullable().defaultTo(knex.fn.now());
   });

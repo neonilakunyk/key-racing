@@ -1,10 +1,12 @@
+import { Response, NextFunction, Request } from 'express';
 import { HttpCode, UserKey } from 'common/enums';
-import { Request, RequestHandler } from 'express';
 
-export const run = <T, R extends Request>(
-  method: (req: R) => Promise<T>,
-): RequestHandler => {
-  return async (req, res, next): Promise<void> => {
+export const run = <T, R extends Request>(method: (req: R) => Promise<T>) => {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
       const result = await method(req as R);
       if (

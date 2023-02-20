@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { HttpCode, HttpErrorMessage } from 'common/enums';
 import { WHITE_LIST_ROUTES } from 'common/constants';
-import { IRequestWithUser } from 'common/interfaces';
 import { verifyToken } from 'common/helpers';
 
 export const auth = (req: Request, res: Response, next: NextFunction): void => {
@@ -14,7 +13,7 @@ export const auth = (req: Request, res: Response, next: NextFunction): void => {
     if (authHeader) {
       const token = authHeader && authHeader.split(' ')[1]; // remove Bearer part
       const decoded = verifyToken(token);
-      req = { ...req, userId: decoded.userId } as IRequestWithUser;
+      req.userId = decoded.userId;
       next();
     } else {
       throw new Error();

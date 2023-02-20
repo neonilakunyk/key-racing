@@ -2,13 +2,18 @@ import { env } from 'env';
 import { google as googleapis } from 'googleapis';
 
 const {
-  google: { clientId, clientSecret, redirectUrl },
+  google: { clientId, clientSecret, redirectUrl, refreshToken },
 } = env;
+
 const oauth2Client = new googleapis.auth.OAuth2(
   clientId,
   clientSecret,
   redirectUrl,
 );
+
+oauth2Client.setCredentials({
+  refresh_token: refreshToken,
+});
 
 const generateAuthUrl = (): string => {
   return oauth2Client.generateAuthUrl({

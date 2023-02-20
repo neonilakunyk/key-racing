@@ -21,6 +21,7 @@
     "chart.js": "3.5.1",
     "clsx": "1.1.1",
     "key-racing-shared": "file:../shared/build",
+    "query-string": "7.1.1",
     "react": "17.0.2",
     "react-avatar": "3.10.0",
     "react-bootstrap": "2.0.0-beta.4",

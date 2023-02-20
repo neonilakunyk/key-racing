@@ -23,12 +23,12 @@ const env = {
   mailer: {
     service: getEnvVar('MAILER_SERVICE'),
     user: getEnvVar('MAILER_AUTH_USER'),
-    refreshToken: getEnvVar('MAILER_AUTH_REFRESH_TOKEN'),
   },
   google: {
     clientId: getEnvVar('GOOGLE_CLIENT_ID'),
     clientSecret: getEnvVar('GOOGLE_CLIENT_SECRET'),
     redirectUrl: getEnvVar('GOOGLE_REDIRECT_URL'),
+    refreshToken: getEnvVar('GOOGLE_REFRESH_TOKEN'),
   },
 } as const;
 

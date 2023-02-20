@@ -14,13 +14,13 @@ router.get(
 
 router.put(
   '/game',
-  validationMiddleware(gameSettingsSchema),
+  validationMiddleware({ body: gameSettingsSchema }),
   run((req: IRequestWithUser) => setGameSettings(req.userId, req.body)),
 );
 
 router.put(
   '/security',
-  validationMiddleware(securitySettingsSchema),
+  validationMiddleware({ body: securitySettingsSchema }),
   run((req: IRequestWithUser) => setSecuritySettings(req.userId, req.body)),
 );
 

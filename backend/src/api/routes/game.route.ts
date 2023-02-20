@@ -8,6 +8,7 @@ import {
   deleteText,
   getShareLink,
   getJoke,
+  getRoomUsers,
 } from 'services';
 import { validationMiddleware } from 'api/middlewares';
 import { roomUserSchema } from 'common/validations';
@@ -24,6 +25,11 @@ router.get(
   run((req) => getShareLink(Number(req.params.roomId))),
 );
 
+router.get(
+  '/:roomId/users',
+  run((req) => getRoomUsers(Number(req.params.roomId))),
+);
+
 router.put(
   '/delete-text',
   run((req) => deleteText(Number(req.body.roomId))),
@@ -31,13 +37,13 @@ router.put(
 
 router.put(
   '/add-user',
-  validationMiddleware(roomUserSchema),
+  validationMiddleware({ body: roomUserSchema }),
   run((req: IRequestWithSocket) => addUser(req.body, req.io)),
 );
 
 router.put(
   '/delete-user',
-  validationMiddleware(roomUserSchema),
+  validationMiddleware({ body: roomUserSchema }),
   run((req: IRequestWithSocket) => deleteUser(req.body, req.io)),
 );
 

@@ -19,13 +19,12 @@ auth – is the authentication object
   expires – is an optional expiration time for the current accessToken */
 
 const {
-  mailer: { refreshToken, user },
-  google: { clientId, clientSecret },
+  mailer: { user },
+  google: { clientId, clientSecret, refreshToken },
 } = env;
 
 const createTransport = async (): Promise<nodemailer.Transporter> => {
   const token = await getAccessToken();
-
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {

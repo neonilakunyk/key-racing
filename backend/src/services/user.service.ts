@@ -4,7 +4,12 @@ import { deleteLocally } from 'common/helpers';
 import { IUser } from 'common/interfaces';
 import { HttpError } from 'common/exceptions';
 import { HttpCode, HttpErrorMessage } from 'common/enums';
-import { deleteInS3, isFileExistsInS3, uploadToS3 } from 'common/utils';
+import {
+  deleteInS3,
+  getSignedUrl,
+  isFileExistsInS3,
+  uploadToS3,
+} from 'common/utils';
 import { UserRatingInfo } from 'common/types';
 
 export const getUserById = async (userId: number): Promise<IUser> => {
@@ -62,9 +67,11 @@ export const updateAvatar = async (
   deleteLocally(file.path);
   const { Location } = uploadedFile;
 
-  return usersRepository.patchById(id, {
+  await usersRepository.patchById(id, {
     photoUrl: Location ?? userToUpdate.photoUrl,
   });
+  const newPhotoUrl = await getSignedUrl(Location);
+  return { ...userToUpdate, photoUrl: newPhotoUrl };
 };
 
 export const deleteAvatar = async (id: number): Promise<void> => {

@@ -15,8 +15,9 @@ const login = createAsyncThunk(
   ActionType.SET_USER,
   async (loginPayload: ILogin, { dispatch }): Promise<void> => {
     try {
-      const user = await authApi.loginUser(loginPayload);
-      setTokensLocalStorage(user);
+      const userInfo = await authApi.loginUser(loginPayload);
+      const { accessToken, refreshToken, ...user } = userInfo;
+      setTokensLocalStorage({ accessToken, refreshToken });
       dispatch(actions.setUser(user));
     } catch (err) {
       const httpError = err as HttpError;
@@ -29,8 +30,9 @@ const register = createAsyncThunk(
   ActionType.SET_USER,
   async (registerPayload: IRegister, { dispatch }): Promise<void> => {
     try {
-      const user = await authApi.registerUser(registerPayload);
-      setTokensLocalStorage(user);
+      const userInfo = await authApi.registerUser(registerPayload);
+      const { accessToken, refreshToken, ...user } = userInfo;
+      setTokensLocalStorage({ accessToken, refreshToken });
       dispatch(actions.setUser(user));
     } catch (err) {
       const httpError = err as HttpError;
@@ -60,8 +62,9 @@ const loginGoogle = createAsyncThunk(
   ActionType.SET_USER,
   async (code: string, { dispatch }): Promise<void> => {
     try {
-      const user = await authApi.loginGoogle(code);
-      setTokensLocalStorage(user);
+      const userInfo = await authApi.loginGoogle(code);
+      const { accessToken, refreshToken, ...user } = userInfo;
+      setTokensLocalStorage({ accessToken, refreshToken });
       dispatch(actions.setUser(user));
     } catch (err) {
       const httpError = err as HttpError;

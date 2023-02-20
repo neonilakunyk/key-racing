@@ -1,22 +1,25 @@
 import { NextFunction, Request, Response } from 'express';
 import { HttpCode, HttpErrorMessage } from 'common/enums';
-import { HttpError } from 'common/exceptions';
 import { logger } from 'common/utils';
+import { HttpError } from 'common/exceptions';
 
 export const errorHandlerMiddleware = (
-  err: HttpError,
+  err: Error,
   _req: Request,
   res: Response,
   __next: NextFunction,
 ): void => {
   const isHttpError = err.name === 'HttpError';
 
-  const status = isHttpError ? err.status : HttpCode.INTERNAL_SERVER_ERROR;
+  const status = isHttpError
+    ? (err as HttpError).status
+    : HttpCode.INTERNAL_SERVER_ERROR;
   const message = isHttpError
     ? err.message
     : HttpErrorMessage.INTERNAL_SERVER_ERROR;
 
   logger.error({ status, message });
+  logger.error(err);
 
   res.status(status).send({ error: message });
 };

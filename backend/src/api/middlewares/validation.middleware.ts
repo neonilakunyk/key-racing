@@ -4,7 +4,10 @@ import { HttpCode } from 'common/enums';
 import { ValidationError } from 'common/exceptions';
 
 export const validationMiddleware = <T extends AnySchema>(
-  schema: T,
+  schema: {
+    body?: T;
+    query?: T;
+  },
   context?: Record<string, unknown>,
 ) => {
   return async (
@@ -12,9 +15,15 @@ export const validationMiddleware = <T extends AnySchema>(
     res: Response,
     next: NextFunction,
   ): Promise<void> => {
-    const data = req.body;
+    const { body, query } = req;
+    const { body: bodySchema, query: querySchema } = schema;
     try {
-      await schema.validate(data, { context });
+      if (bodySchema) {
+        await bodySchema.validate(body, { context });
+      }
+      if (querySchema) {
+        await querySchema.validate(query, { context });
+      }
       next();
     } catch (err: unknown) {
       if (err instanceof ValidationError) {

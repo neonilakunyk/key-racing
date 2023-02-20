@@ -25,9 +25,9 @@ const getRandomDescription = async (): Promise<IGameText> => {
         },
       },
     );
+    const item = (response.data as BooksApiResponse).items.pop();
     const text =
-      (response.data as BooksApiResponse).items.pop()?.description ??
-      DEFAULT_RACING_TEXT;
+      item?.volumeInfo?.description ?? item?.description ?? DEFAULT_RACING_TEXT;
     return { text };
   } catch (err: unknown) {
     logger.error((err as Error).message);

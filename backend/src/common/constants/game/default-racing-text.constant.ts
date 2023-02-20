@@ -1,3 +1,3 @@
-const DEFAULT_RACING_TEXT = 'Default tet to racing';
+const DEFAULT_RACING_TEXT = 'Default text to racing';
 
 export { DEFAULT_RACING_TEXT };

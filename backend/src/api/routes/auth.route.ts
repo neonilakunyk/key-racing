@@ -24,43 +24,43 @@ const router: Router = Router();
 
 router.post(
   '/register',
-  validationMiddleware(signUpSchema),
+  validationMiddleware({ body: signUpSchema }),
   run((req) => register(req.body)),
 );
 
 router.post(
   '/login',
-  validationMiddleware(loginSchema),
+  validationMiddleware({ body: loginSchema }),
   run((req) => login(req.body)),
 );
 
 router.post(
   '/reset-password',
-  validationMiddleware(resetPasswordSchema),
+  validationMiddleware({ body: resetPasswordSchema }),
   run((req) => resetPassword(req.body)),
 );
 
 router.post(
   '/set-password',
-  validationMiddleware(setPasswordSchema),
+  validationMiddleware({ body: setPasswordSchema }),
   run((req) => setPassword(req.body)),
 );
 
 router.post(
   '/refresh',
-  validationMiddleware(refreshTokenSchema),
+  validationMiddleware({ body: refreshTokenSchema }),
   run((req) => refreshTokens(req.body)),
 );
 
 router.post(
   '/logout',
-  validationMiddleware(refreshTokenSchema),
+  validationMiddleware({ body: refreshTokenSchema }),
   run((req) => logout(req.body)),
 );
 
 router.post(
   '/login/google',
-  validationMiddleware(loginGoogleSchema),
+  validationMiddleware({ body: loginGoogleSchema }),
   run((req) => loginGoogle(req.body)),
 );
 

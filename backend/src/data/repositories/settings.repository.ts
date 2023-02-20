@@ -9,9 +9,7 @@ const createEmptyUserRecord = async (
 };
 
 const getByUserId = async (userId: number): Promise<ISettings | undefined> => {
-  return SettingsModel.query()
-    .where({ [SettingsKey.USER_ID]: userId })
-    .first();
+  return SettingsModel.query().findOne({ [SettingsKey.USER_ID]: userId });
 };
 
 const patchByUserId = async (
@@ -20,7 +18,9 @@ const patchByUserId = async (
 ): Promise<ISettings | undefined> => {
   return SettingsModel.query()
     .where({ [SettingsKey.USER_ID]: userId })
-    .patchAndFetch(data);
+    .patch(data)
+    .returning('*')
+    .first();
 };
 
 export { createEmptyUserRecord, getByUserId, patchByUserId };

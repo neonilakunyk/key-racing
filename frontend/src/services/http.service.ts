@@ -11,6 +11,7 @@ import {
 import { HttpOptions } from 'common/types';
 import {
   deleteTokensLocalStorage,
+  getFetchUrl,
   setTokensLocalStorage,
 } from 'common/helpers';
 
@@ -37,7 +38,12 @@ class Http {
         } else {
           this.areTokensRefreshing = true;
           const accessToken = await this.refreshTokens(httpErr);
-          return this.sendRequest(url, options, accessToken);
+          const { queryParams, ...restOptions } = options;
+          return this.sendRequest(
+            getFetchUrl(url, queryParams),
+            restOptions,
+            accessToken,
+          );
         }
       } else {
         this.throwError(httpErr);

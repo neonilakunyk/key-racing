@@ -11,6 +11,7 @@ import {
   sendMail,
   generateAuthUrl,
   getIdToken,
+  getSignedUrl,
 } from 'common/utils';
 import { HttpError } from 'common/exceptions';
 import {
@@ -46,11 +47,15 @@ const setTokens = async (userId: number): Promise<ITokens> => {
   return tokens;
 };
 
-const getUserWithTokens = async (user: IUser): Promise<IUserWithTokens> => {
+const getUser = async (user: IUser): Promise<IUserWithTokens> => {
+  const photoUrl = user.photoUrl
+    ? await getSignedUrl(user.photoUrl)
+    : user.photoUrl;
   const tokens = await setTokens(user.id);
   return {
     ...user,
     ...tokens,
+    photoUrl,
   };
 };
 
@@ -74,7 +79,7 @@ const createUser = async ({
   const newUser = await usersRepository.create(userData);
   await settingsRepository.createEmptyUserRecord(newUser.id);
 
-  return getUserWithTokens(newUser);
+  return getUser(newUser);
 };
 
 export const register = async (
@@ -112,7 +117,7 @@ export const login = async (body: ILogin): Promise<IUserWithTokens> => {
     });
   }
 
-  return getUserWithTokens(user);
+  return getUser(user);
 };
 
 export const resetPassword = async (body: IResetPassword): Promise<void> => {
@@ -126,7 +131,6 @@ export const resetPassword = async (body: IResetPassword): Promise<void> => {
 
   const token = generateAccessToken(user.id);
   const url = `${env.app.url}/set-password?token=${token}`;
-
   await sendMail({ to: user.email, subject: 'Reset Password', text: url });
 };
 
@@ -197,7 +201,7 @@ export const loginGoogle = async ({
   const { email, name, picture } = decodedToken as unknown as IGoogleUser;
   const user = await usersRepository.getByEmail(email);
   if (user) {
-    return getUserWithTokens(user);
+    return getUser(user);
   }
   return createUser({ fullName: name, email, photoUrl: picture });
 };

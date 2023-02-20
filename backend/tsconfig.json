@@ -7,6 +7,7 @@
     "outDir": "build",
     "module": "CommonJS", // Defines import type in result file
     "moduleResolution": "node", // Defines way of searching modules in folders
-    "pretty": true // Pretty logs
+    "pretty": true, // Pretty logs
+    "typeRoots": ["./node_modules/@types", "./src/common/types/libs/express"]
   }
 }

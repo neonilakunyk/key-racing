@@ -62,6 +62,7 @@ export const ProfileSettings: React.FC = () => {
         .finally(() => {
           setIsDeleting(false);
           setSelectedImgURL('');
+          setCroppedImgURL('');
         });
     }
   };

@@ -21,14 +21,14 @@ router.get(
 
 router.put(
   '/me/profile',
-  validationMiddleware(profileInfoSchema, { notRequired: true }),
-  run((req) => updateUserInfo(Number(req.params.userId), req.body)),
+  validationMiddleware({ body: profileInfoSchema }, { notRequired: true }),
+  run((req: IRequestWithUser) => updateUserInfo(req.userId, req.body)),
 );
 
 router.put(
   '/me/avatar',
   uploadLocally().single('image'),
-  run((req) => updateAvatar(Number(req.params.userId), req.file)),
+  run((req: IRequestWithUser) => updateAvatar(req.userId, req.file)),
 );
 
 router.delete(
@@ -43,7 +43,7 @@ router.get(
 
 router.put(
   '/rating',
-  validationMiddleware(userRecordSchema),
+  validationMiddleware({ body: userRecordSchema }),
   run((req: IRequestWithUser) => updateRecord(req.body, req.userId)),
 );
 

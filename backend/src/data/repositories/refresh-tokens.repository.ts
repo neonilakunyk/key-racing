@@ -12,9 +12,7 @@ const create = async (
 const getByToken = async (
   token: string,
 ): Promise<IRefreshTokenRecord | undefined> => {
-  return RefreshTokenModel.query()
-    .where({ [RefreshTokenKey.TOKEN]: token })
-    .first();
+  return RefreshTokenModel.query().findOne({ [RefreshTokenKey.TOKEN]: token });
 };
 
 const removeByUserId = async (userId: number): Promise<number> => {

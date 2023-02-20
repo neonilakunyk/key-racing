@@ -29,7 +29,9 @@ export const getText = async (roomId: number): Promise<IGameText> => {
   if (room.text) {
     return { text: room.text };
   } else {
-    return getRandomDescription();
+    const text = await getRandomDescription();
+    await roomsRepository.patchById(roomId, text);
+    return text;
   }
 };
 
@@ -43,6 +45,10 @@ export const getShareLink = async (roomId: number): Promise<IGameLink> => {
   }
   const link = `${env.app.url}/game/${roomId}`;
   return { link };
+};
+
+export const getRoomUsers = async (roomId: number): Promise<IUser[]> => {
+  return usersRepository.getUsersByRoomId(roomId);
 };
 
 export const deleteText = async (roomId: number): Promise<void> => {
@@ -61,13 +67,10 @@ export const deleteText = async (roomId: number): Promise<void> => {
 export const addUser = async (
   { roomId, userId }: IRoomUser,
   io: Server,
-): Promise<IUser> => {
+): Promise<void> => {
   const room = await roomsRepository.getWithUsersById(roomId);
   if (!room) {
-    throw new HttpError({
-      status: HttpCode.NOT_FOUND,
-      message: HttpErrorMessage.NO_ROOM_WITH_SUCH_ID,
-    });
+    return;
   }
   const user = await usersRepository.getById(userId);
   if (!user) {
@@ -89,7 +92,6 @@ export const addUser = async (
   }
   await usersRepository.patchById(userId, { currentRoomId: roomId });
   io.to(String(roomId)).emit(SocketEvents.ADD_PARTICIPANT, user);
-  return user;
 };
 
 export const deleteUser = async (
@@ -98,16 +100,11 @@ export const deleteUser = async (
 ): Promise<void> => {
   const room = await roomsRepository.getWithUsersById(roomId);
   if (!room) {
-    throw new HttpError({
-      status: HttpCode.NOT_FOUND,
-      message: HttpErrorMessage.NO_ROOM_WITH_SUCH_ID,
-    });
+    return;
   }
-  if (room.users.length || room.type === RoomType.PERSONAL) {
-    await usersRepository.patchById(userId, { currentRoomId: null });
-    io.to(String(roomId)).emit(SocketEvents.REMOVE_PARTICIPANT, { userId });
-  }
-  if (room.type !== RoomType.PERSONAL) {
+  await usersRepository.patchById(userId, { currentRoomId: null });
+  io.to(String(roomId)).emit(SocketEvents.REMOVE_PARTICIPANT, { userId });
+  if (!room.users.length && room.type !== RoomType.PERSONAL) {
     await roomsRepository.removeById(roomId);
     io.emit(SocketEvents.DELETE_ROOM, { roomId });
   }

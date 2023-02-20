@@ -1,2 +1,2 @@
-export * from './delete-locally.helper';
-export * from './upload-locally.helper';
+export * from './local';
+export * from './s3';

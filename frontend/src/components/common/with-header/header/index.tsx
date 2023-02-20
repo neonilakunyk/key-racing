@@ -35,7 +35,9 @@ const Header: React.FC = () => {
             'd-flex justify-content-start',
           )}
         >
-          <Link to={replaceIdParam(AppRoute.GAME, user.id) as AppRoute}>
+          <Link
+            to={replaceIdParam(AppRoute.GAME, user.personalRoomId) as AppRoute}
+          >
             <NavItem iconName="bi bi-person" label="Single player" />
           </Link>
           <Link to={AppRoute.ROOMS}>

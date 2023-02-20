@@ -1,5 +1,11 @@
 import { HttpMethod, ContentType } from 'common/enums';
-import { IUser, IRoomUser, IGameText, IGameLink, IJoke } from '../common/interfaces';
+import {
+  IUser,
+  IRoomUser,
+  IGameText,
+  IGameLink,
+  IJoke,
+} from '../common/interfaces';
 import { http } from './http.service';
 
 class GameApi {
@@ -18,7 +24,7 @@ class GameApi {
     return this.http.load(`${this.BASE}/${roomId}/users`);
   }
 
-  public async addParticipant(payload: IRoomUser): Promise<IUser> {
+  public async addParticipant(payload: IRoomUser): Promise<void> {
     return this.http.load(`${this.BASE}/add-user`, {
       method: HttpMethod.PUT,
       payload: JSON.stringify(payload),
