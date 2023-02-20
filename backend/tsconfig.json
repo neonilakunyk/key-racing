@@ -3,7 +3,15 @@
   "include": ["src"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "baseUrl": "src", // For short access ('common..' and not '../../common..')
+    "baseUrl": "./",
+    "paths": { // For short access ('common..' and not '../../common..')
+      "api/*": ["src/api/*"],
+      "common/*": ["src/common/*"],
+      "data/*": ["src/data/*"],
+      "env": ["src/env/index.ts"],
+      "services": ["src/services/index.ts"],
+      "socket": ["src/socket/index.ts"]
+    },
     "outDir": "build",
     "module": "CommonJS", // Defines import type in result file
     "moduleResolution": "node", // Defines way of searching modules in folders
